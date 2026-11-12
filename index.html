@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎄 Mùa Noel Bí Ẩn Của 204 🎄</title>
+    <title>🎄 Trạm Bưu Tá Secret Santa 2026 🎄</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* GIAO DIỆN BÍ ẨN (DARK THEME) */
+        /* GIAO DIỆN GIÁNG SINH TƯƠI SÁNG */
         body { 
-            background-color: #0a0a0a; 
-            background-image: url('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?q=80&w=2070&auto=format&fit=crop'); 
+            background-color: #1a472a; 
+            /* Ảnh nền rừng thông ban ngày có tuyết */
+            background-image: url('https://images.unsplash.com/photo-1543364195-bfe6e4932397?q=80&w=2070&auto=format&fit=crop'); 
             background-size: cover; 
             background-position: center; 
             background-attachment: fixed; 
@@ -17,154 +18,149 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             position: relative; 
             overflow-x: hidden; 
-            color: #e2e8f0;
         }
         
-        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5, 5, 10, 0.85); z-index: -1; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 71, 42, 0.7); z-index: -1; }
         
         .glass-panel { 
-            background: rgba(20, 20, 25, 0.7); 
-            backdrop-filter: blur(12px); 
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(10px); 
             border-radius: 16px; 
-            box-shadow: 0 0 40px rgba(139, 0, 0, 0.3); 
-            border: 1px solid rgba(220, 38, 38, 0.2); 
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); 
+            border: 1px solid rgba(255, 255, 255, 0.3); 
         }
         
         .glass-form { 
-            background: rgba(10, 10, 15, 0.8); 
+            background: rgba(255, 255, 255, 0.95); 
             border-radius: 12px; 
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); 
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); 
         }
 
-        .btn-mystic { 
-            background: linear-gradient(135deg, #7f1d1d, #991b1b); 
-            color: #fff; 
+        .btn-christmas { 
+            background: linear-gradient(135deg, #c0392b, #e74c3c); 
+            color: white; 
             font-weight: bold; 
             padding: 12px 24px; 
             border-radius: 8px; 
-            box-shadow: 0 0 15px rgba(220, 38, 38, 0.4); 
+            box-shadow: 0 4px 15px rgba(192, 57, 43, 0.4); 
             transition: all 0.3s ease; 
             width: 100%; 
-            border: 1px solid #dc2626;
         }
-        .btn-mystic:hover { 
+        .btn-christmas:hover { 
             transform: translateY(-2px); 
-            box-shadow: 0 0 25px rgba(220, 38, 38, 0.8); 
-            background: linear-gradient(135deg, #991b1b, #b91c1c); 
+            box-shadow: 0 6px 20px rgba(192, 57, 43, 0.6); 
+            background: linear-gradient(135deg, #a93226, #cb4335); 
         }
 
         .form-input { 
-            width: 100%; padding: 10px 15px; border: 1px solid #334155; border-radius: 8px; margin-top: 5px; 
-            transition: all 0.3s; background-color: #1e293b; color: white;
+            width: 100%; padding: 10px 15px; border: 1px solid #e2e8f0; border-radius: 8px; margin-top: 5px; 
+            transition: all 0.3s; background-color: #f8fafc; 
         }
-        .form-input:focus { outline: none; border-color: #dc2626; box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2); }
-        .form-input::placeholder { color: #64748b; }
+        .form-input:focus { outline: none; border-color: #27ae60; box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2); background-color: #ffffff; }
 
-        .filter-btn { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; background: #334155; color: #cbd5e1; transition: all 0.2s; border: 1px solid #475569; cursor: pointer; }
-        .filter-btn:hover { background: #475569; }
-        .filter-btn.active { background: #7f1d1d; color: #fff; border-color: #ef4444; box-shadow: 0 0 10px rgba(220,38,38,0.5); }
+        .filter-btn { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; background: #e2e8f0; color: #475569; transition: all 0.2s; border: 2px solid transparent; cursor: pointer; }
+        .filter-btn:hover { background: #cbd5e1; }
+        .filter-btn.active { background: #fee2e2; color: #b91c1c; border-color: #ef4444; }
 
-        .tab-locked { opacity: 0.4; cursor: not-allowed; position: relative; background: #1e293b !important; color: #64748b !important; border: none; }
+        .tab-locked { opacity: 0.6; cursor: not-allowed; position: relative; }
         .tab-locked::after { content: "🔒"; position: absolute; top: -10px; right: -10px; font-size: 1.2rem; }
-        .tab-active { background: #1a1a1a !important; color: #ef4444 !important; border-bottom: 4px solid #dc2626 !important; }
-
-        .glow-text {
-            text-shadow: 0 0 10px rgba(220, 38, 38, 0.8), 0 0 20px rgba(220, 38, 38, 0.5);
-        }
     </style>
 </head>
-<body>
-    <div class="overlay"></div>
-
-    <!-- TRÌNH PHÁT NHẠC NỔI Ở GÓC DƯỚI -->
-    <div class="fixed bottom-6 right-6 z-50">
-        <button id="musicToggleBtn" onclick="toggleMusic()" class="bg-black border border-red-500 text-white rounded-full p-4 shadow-[0_0_20px_rgba(220,38,38,0.6)] hover:scale-110 transition flex items-center justify-center animate-bounce">
-            🎵 Bật Nhạc
-        </button>
-        <audio id="bgMusic" loop>
-            <source src="https://assets.mixkit.co/music/preview/mixkit-christmas-magic-147.mp3" type="audio/mpeg">
-        </audio>
+<body class="text-gray-800">
+    <!-- Overlay yêu cầu Click để phát nhạc (Mẹo lách luật Autoplay của trình duyệt) -->
+    <div id="startOverlay" class="fixed inset-0 bg-black/80 z-[100] flex flex-col items-center justify-center cursor-pointer" onclick="startExperience()">
+        <div class="text-6xl mb-4 animate-bounce">🎁</div>
+        <h2 class="text-3xl font-bold text-white mb-2">Chạm để mở quà...</h2>
+        <p class="text-gray-300">(Và bật nhạc Giáng sinh)</p>
     </div>
 
-    <div class="container mx-auto px-4 py-10 max-w-4xl">
+    <div class="overlay"></div>
+
+    <!-- Nhạc nền ẩn -->
+    <audio id="bgMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-deck-the-halls-133.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container mx-auto px-4 py-10 max-w-4xl relative z-10">
+        
         <div class="text-center mb-10">
-            <h1 class="text-5xl md:text-6xl font-extrabold text-red-500 mb-4 glow-text">
-                🩸 Noel Bí Ẩn Của 204
+            <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-4 drop-shadow-lg" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+                🎅 Trạm Bưu Tá Secret Santa
             </h1>
-            <p class="text-xl text-gray-400 font-medium tracking-wider">Lễ hội đổi quà trong bóng tối đã bắt đầu...</p>
+            <p class="text-xl text-green-100 font-medium">Chiến dịch Mùa Đông 2026 đã chính thức khởi động!</p>
         </div>
 
         <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-8">
-            <button class="bg-white tab-active font-bold py-2 px-4 md:px-6 rounded-t-lg shadow-[0_-5px_15px_rgba(220,38,38,0.2)]">Part 1: Khởi Nguồn</button>
-            <button class="bg-gray-200 tab-locked font-semibold py-2 px-4 md:px-6 rounded-t-lg">Part 2: Lời Thì Thầm</button>
-            <button class="bg-gray-200 tab-locked font-semibold py-2 px-4 md:px-6 rounded-t-lg">Part 3: Săn Lùng</button>
-            <button class="bg-gray-200 tab-locked font-semibold py-2 px-4 md:px-6 rounded-t-lg">Part 4: Lộ Diện</button>
+            <button class="bg-white text-red-700 font-bold py-2 px-4 md:px-6 rounded-t-lg border-b-4 border-red-700 shadow-md">Part 1: The Gathering</button>
+            <button class="bg-gray-200 text-gray-500 font-semibold py-2 px-4 md:px-6 rounded-t-lg tab-locked">Part 2: The Whisper</button>
+            <button class="bg-gray-200 text-gray-500 font-semibold py-2 px-4 md:px-6 rounded-t-lg tab-locked">Part 3: The Sneaky Elf</button>
+            <button class="bg-gray-200 text-gray-500 font-semibold py-2 px-4 md:px-6 rounded-t-lg tab-locked">Part 4: The Reveal</button>
         </div>
 
         <div class="glass-panel p-6 md:p-10">
             <div id="part1">
                 <div class="text-center">
-                    <h2 class="text-3xl font-bold text-red-500 mb-2">Trạm Bưu Tá Hắc Ám</h2>
-                    <div class="w-24 h-1 bg-red-700 mx-auto rounded-full mb-8 shadow-[0_0_10px_red]"></div>
+                    <h2 class="text-3xl font-bold text-red-700 mb-2">🎄 Bắt Đầu Hành Trình</h2>
+                    <div class="w-24 h-1 bg-green-600 mx-auto rounded-full mb-8"></div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-start">
                     
-                    <!-- Phần Luật Chơi (Trái) -->
+                    <!-- Luật Chơi -->
                     <div class="md:col-span-2 space-y-6">
                         <div class="flex justify-center mb-4">
-                            <svg class="w-32 h-32 text-red-700 animate-pulse drop-shadow-[0_0_15px_red]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                            <svg class="w-32 h-32 text-red-600 animate-pulse" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z" clip-rule="evenodd"></path><path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"></path></svg>
                         </div>
-                        <div class="bg-black/50 p-5 rounded-xl border border-red-900/50">
-                            <h3 class="text-lg font-bold text-red-400 mb-3 border-b border-red-900/50 pb-2">📜 Giao Ước:</h3>
-                            <ul class="list-disc list-inside text-sm space-y-3 text-gray-300">
-                                <li>Khai báo danh tính qua ảnh selfie.</li>
-                                <li>Hệ thống bốc thăm ẩn danh trong bóng tối.</li>
-                                <li>Giữ kín nhiệm vụ tuyệt đối.</li>
-                                <li>Sự sống còn nằm ở món quà bạn chọn.</li>
+                        <div class="bg-white/60 p-5 rounded-xl border border-white">
+                            <h3 class="text-lg font-bold text-green-800 mb-3">📜 Luật Chơi Cơ Bản:</h3>
+                            <ul class="list-disc list-inside text-sm space-y-2 text-gray-700 font-medium">
+                                <li><strong>Bước 1:</strong> Chụp ảnh Selfie ngầu đét và điền form.</li>
+                                <li><strong>Bước 2:</strong> BTC bốc thăm ẩn danh.</li>
+                                <li><strong>Bước 3:</strong> Nhận nhiệm vụ tặng quà.</li>
+                                <li><strong>Bước 4:</strong> Chuẩn bị quà theo Wishlist.</li>
+                                <li><strong>Bước 5:</strong> Trao quà tại sự kiện chung.</li>
                             </ul>
                         </div>
                     </div>
 
-                    <!-- Phần Form Đăng Ký (Phải) -->
-                    <div class="md:col-span-3 glass-form p-6 relative">
-                        <h3 class="text-xl font-bold text-gray-200 border-b border-gray-700 pb-3 mb-4 flex items-center">
-                            🩸 Bản Đăng Ký
+                    <!-- Form Đăng Ký -->
+                    <div class="md:col-span-3 glass-form p-6 border border-gray-100 relative">
+                        <h3 class="text-xl font-bold text-gray-800 border-b pb-3 mb-4 flex items-center">
+                            <span class="mr-2">✍️</span> Đơn Đăng Ký Secret Santa
                         </h3>
                         
-                        <div id="successMessage" class="hidden absolute inset-0 bg-black/95 rounded-xl flex flex-col items-center justify-center z-10 p-6 text-center border border-red-500">
-                            <div class="text-5xl mb-4">🕯️</div>
-                            <h4 class="text-2xl font-bold text-red-500 mb-2 glow-text">Giao ước thành công!</h4>
-                            <p class="text-gray-400">Tên của bạn đã được ghi vào sổ Nam Tào. Hãy chờ đợi mật thư...</p>
-                            <button onclick="resetWholeForm()" class="mt-6 px-4 py-2 bg-red-900 rounded-lg hover:bg-red-800 text-white font-medium transition shadow-[0_0_10px_red]">Đóng</button>
+                        <div id="successMessage" class="hidden absolute inset-0 bg-white/95 rounded-xl flex flex-col items-center justify-center z-10 p-6 text-center">
+                            <div class="text-5xl mb-4">🎉</div>
+                            <h4 class="text-2xl font-bold text-green-600 mb-2">Đăng ký thành công!</h4>
+                            <p class="text-gray-600">Dữ liệu của bạn đã được ghi nhận. Hãy chờ đợi mật thư giao nhiệm vụ nhé!</p>
+                            <button onclick="resetWholeForm()" class="mt-6 px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 text-sm font-medium transition">Đóng & Gửi Thêm</button>
                         </div>
 
                         <form id="santaForm" onsubmit="submitForm(event)" class="space-y-4">
                             <div>
-                                <label class="block text-sm font-bold text-gray-300">Tên Định Danh <span class="text-red-500">*</span></label>
-                                <input type="text" id="name" required class="form-input" placeholder="Tên gọi của bạn...">
+                                <label class="block text-sm font-bold text-gray-700">Họ và Tên của bạn <span class="text-red-500">*</span></label>
+                                <input type="text" id="name" required class="form-input" placeholder="Nhập họ tên...">
                             </div>
                             
-                            <!-- Selfie + Sticker Noel -->
-                            <div class="bg-black/40 p-4 rounded-lg border border-dashed border-red-900">
-                                <label class="block text-sm font-bold text-gray-300 mb-3">Nghi Thức Quét Khuôn Mặt 📸 <span class="text-red-500">*</span></label>
+                            <!-- Selfie + Filter Đặc Sắc -->
+                            <div class="bg-gray-50 p-4 rounded-lg border border-dashed border-gray-300">
+                                <label class="block text-sm font-bold text-gray-700 mb-3">Selfie Xác Minh (Bắt buộc) 📸 <span class="text-red-500">*</span></label>
                                 <div class="flex items-center gap-4">
-                                    <label for="selfie" class="cursor-pointer bg-black text-red-500 px-4 py-2 rounded-lg border border-red-700 hover:bg-red-900 hover:text-white transition text-sm font-bold flex items-center shadow-[0_0_10px_rgba(220,38,38,0.3)]">
-                                        Mở Camera
+                                    <label for="selfie" class="cursor-pointer bg-red-100 text-red-700 px-4 py-2 rounded-lg border border-red-300 hover:bg-red-200 transition text-sm font-bold flex items-center">
+                                        Mở Camera Chụp
                                     </label>
                                     <input type="file" id="selfie" accept="image/*" capture="user" required class="hidden" onchange="loadOriginalImage(event)">
-                                    <img id="selfiePreview" src="" class="hidden w-24 h-24 object-cover rounded-full border-2 border-red-500 shadow-[0_0_15px_red]">
+                                    <img id="selfiePreview" src="" class="hidden w-24 h-24 object-cover rounded-xl border-2 border-green-500 shadow-md">
                                 </div>
                                 
-                                <div id="filterToolbar" class="hidden mt-4 p-3 bg-gray-900 rounded-lg border border-gray-700">
-                                    <p class="text-xs font-bold text-gray-400 mb-2">Hóa Trang:</p>
+                                <div id="filterToolbar" class="hidden mt-4 p-3 bg-white rounded-lg border border-gray-200 shadow-sm">
+                                    <p class="text-xs font-bold text-gray-600 mb-2">Chọn Sticker Trang Trí:</p>
                                     <div class="flex flex-wrap gap-2">
-                                        <button type="button" class="filter-btn active" onclick="applyFilter('none', this)">Gốc</button>
-                                        <button type="button" class="filter-btn" onclick="applyFilter('santa', this)">🎅 Mũ Santa</button>
-                                        <button type="button" class="filter-btn" onclick="applyFilter('reindeer', this)">🦌 Sừng Lộc</button>
+                                        <button type="button" class="filter-btn active" onclick="applyFilter('none', this)">Ảnh Gốc</button>
+                                        <button type="button" class="filter-btn" onclick="applyFilter('santa', this)">🎅 Mũ Noel</button>
+                                        <button type="button" class="filter-btn" onclick="applyFilter('thuglife', this)">😎 Kính Ngầu</button>
+                                        <button type="button" class="filter-btn" onclick="applyFilter('reindeer', this)">🦌 Mũi Đỏ</button>
                                         <button type="button" class="filter-btn" onclick="applyFilter('snow', this)">❄️ Băng Giá</button>
-                                        <button type="button" class="filter-btn" onclick="applyFilter('dark', this)">🩸 Hắc Ám</button>
                                     </div>
                                 </div>
 
@@ -172,21 +168,21 @@
                             </div>
 
                             <div>
-                                <label class="block text-sm font-bold text-gray-300 flex justify-between">
-                                    <span>🎁 Vật Phẩm Cầu Xin <span class="text-red-500">*</span></span>
+                                <label class="block text-sm font-bold text-gray-700 flex justify-between">
+                                    <span>🎁 Wishlist <span class="text-red-500">*</span></span>
                                 </label>
-                                <textarea id="wishlist" required rows="2" class="form-input" placeholder="Ghi khao khát của bạn vào đây..."></textarea>
+                                <textarea id="wishlist" required rows="2" class="form-input" placeholder="Gợi ý chi tiết: Sách kinh doanh, nến thơm..."></textarea>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-bold text-gray-300 flex justify-between">
-                                    <span>🚫 Vật Phẩm Độc Hại <span class="text-red-500">*</span></span>
+                                <label class="block text-sm font-bold text-gray-700 flex justify-between">
+                                    <span>🚫 Blacklist <span class="text-red-500">*</span></span>
                                 </label>
-                                <textarea id="blacklist" required rows="2" class="form-input" placeholder="Những thứ bạn ghét hoặc bị dị ứng..."></textarea>
+                                <textarea id="blacklist" required rows="2" class="form-input" placeholder="Ví dụ: Không ăn đồ ngọt, dị ứng nước hoa..."></textarea>
                             </div>
 
-                            <button type="submit" class="btn-mystic text-lg mt-4 flex justify-center items-center">
-                                Ký Giao Ước 🩸
+                            <button type="submit" class="btn-christmas text-lg mt-4 flex justify-center items-center">
+                                Gửi Đăng Ký 🎅
                             </button>
                         </form>
                     </div>
@@ -196,27 +192,18 @@
         </div>
     </div>
 
-    <!-- Script Xử Lý Nhạc, Tuyết và Form -->
     <script>
-        // Bật/Tắt Nhạc
-        const bgMusic = document.getElementById('bgMusic');
-        const musicBtn = document.getElementById('musicToggleBtn');
-        let isPlaying = false;
-
-        function toggleMusic() {
-            if (isPlaying) {
-                bgMusic.pause();
-                musicBtn.innerHTML = '🎵 Bật Nhạc';
-                musicBtn.classList.add('animate-bounce');
-            } else {
-                bgMusic.play();
-                musicBtn.innerHTML = '🔊 Đang Phát...';
-                musicBtn.classList.remove('animate-bounce');
-            }
-            isPlaying = !isPlaying;
+        // --- XỬ LÝ NHẠC AUTOPLAY LÁCH LUẬT ---
+        function startExperience() {
+            // Ẩn màn hình chào
+            document.getElementById('startOverlay').style.display = 'none';
+            // Phát nhạc
+            const bgMusic = document.getElementById('bgMusic');
+            bgMusic.volume = 0.5; // Âm lượng vừa phải
+            bgMusic.play().catch(e => console.log("Trình duyệt vẫn chặn nhạc:", e));
         }
 
-        // Tuyết rơi màu đỏ/xám ma mị
+        // --- HIỆU ỨNG TUYẾT RƠI ---
         function createSnowflakes() {
             const snowContainer = document.createElement('div');
             snowContainer.style.position = 'fixed'; snowContainer.style.top = '0'; snowContainer.style.left = '0';
@@ -224,16 +211,13 @@
             snowContainer.style.pointerEvents = 'none'; snowContainer.style.zIndex = '9999';
             document.body.appendChild(snowContainer);
 
-            const particles = ['❄', '•', '·']; 
-            for (let i = 0; i < 40; i++) {
+            for (let i = 0; i < 30; i++) {
                 const flake = document.createElement('div');
-                flake.innerHTML = particles[Math.floor(Math.random() * particles.length)];
-                flake.style.position = 'absolute'; 
-                flake.style.color = Math.random() > 0.8 ? 'rgba(220, 38, 38, 0.4)' : 'rgba(255, 255, 255, 0.2)';
+                flake.innerHTML = '❄';
+                flake.style.position = 'absolute'; flake.style.color = 'rgba(255, 255, 255, 0.6)';
                 flake.style.fontSize = Math.random() * 15 + 10 + 'px';
-                flake.style.left = Math.random() * 100 + 'vw'; 
-                flake.style.top = Math.random() * -100 + 'px';
-                flake.style.animation = `fall ${Math.random() * 7 + 5}s linear infinite`;
+                flake.style.left = Math.random() * 100 + 'vw'; flake.style.top = Math.random() * -100 + 'px';
+                flake.style.animation = `fall ${Math.random() * 5 + 5}s linear infinite`;
                 flake.style.animationDelay = `${Math.random() * 5}s`;
                 snowContainer.appendChild(flake);
             }
@@ -243,7 +227,7 @@
         document.head.appendChild(style);
         createSnowflakes();
 
-        // --- XỬ LÝ ẢNH & VẼ STICKER LÊN CANVAS ---
+        // --- XỬ LÝ ẢNH & STICKER ĐẶC SẮC ---
         let originalImgObject = null; 
         let targetWidth = 0;
         let targetHeight = 0;
@@ -268,7 +252,6 @@
                     }
                     
                     document.getElementById('filterToolbar').classList.remove('hidden');
-                    
                     const btns = document.querySelectorAll('.filter-btn');
                     btns.forEach(b => b.classList.remove('active'));
                     btns[0].classList.add('active');
@@ -280,7 +263,7 @@
             reader.readAsDataURL(file);
         }
 
-        // Hàm vẽ Sticker và Filter màu
+        // Vẽ Sticker
         function applyFilter(filterType, btnElement) {
             if (!originalImgObject) return;
 
@@ -294,41 +277,41 @@
             canvas.width = targetWidth;
             canvas.height = targetHeight;
             
-            if(filterType === 'dark') {
-                ctx.filter = 'grayscale(100%) contrast(150%) brightness(50%)';
-            } else {
-                ctx.filter = 'none';
-            }
-
+            // Vẽ ảnh gốc
             ctx.drawImage(originalImgObject, 0, 0, targetWidth, targetHeight);
-            ctx.filter = 'none';
 
+            // Tùy chỉnh Filter & Sticker
             if(filterType === 'santa') {
-                ctx.font = (targetWidth * 0.4) + "px Arial";
+                // Mũ đỏ trên đầu
+                ctx.font = (targetWidth * 0.5) + "px Arial";
                 ctx.textAlign = "center";
                 ctx.textBaseline = "bottom";
                 ctx.fillText("🎅", targetWidth / 2, targetHeight * 0.4); 
             } 
+            else if(filterType === 'thuglife') {
+                // Kính râm cực ngầu giữa mặt
+                ctx.font = (targetWidth * 0.6) + "px Arial";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText("🕶️", targetWidth / 2, targetHeight * 0.45);
+            } 
             else if(filterType === 'reindeer') {
-                ctx.font = (targetWidth * 0.4) + "px Arial";
+                // Sừng tuần lộc và Mũi đỏ
+                ctx.font = (targetWidth * 0.6) + "px Arial";
                 ctx.textAlign = "center";
                 ctx.textBaseline = "bottom";
                 ctx.fillText("🦌", targetWidth / 2, targetHeight * 0.35);
-            } 
-            else if(filterType === 'snow') {
-                ctx.fillStyle = "rgba(173, 216, 230, 0.25)";
-                ctx.fillRect(0, 0, targetWidth, targetHeight);
-                ctx.font = (targetWidth * 0.15) + "px Arial";
-                ctx.fillText("❄️", targetWidth * 0.15, targetHeight * 0.2);
-                ctx.fillText("❄️", targetWidth * 0.85, targetHeight * 0.8);
-                ctx.fillText("❄️", targetWidth * 0.8, targetHeight * 0.25);
-                ctx.fillText("❄️", targetWidth * 0.2, targetHeight * 0.85);
+                ctx.font = (targetWidth * 0.2) + "px Arial";
+                ctx.textBaseline = "middle";
+                ctx.fillText("🔴", targetWidth / 2, targetHeight * 0.6); // Mũi đỏ
             }
-            else if(filterType === 'dark') {
-                ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
+            else if(filterType === 'snow') {
+                // Lớp phủ xanh nhạt & Bông tuyết
+                ctx.fillStyle = "rgba(200, 240, 255, 0.3)";
                 ctx.fillRect(0, 0, targetWidth, targetHeight);
                 ctx.font = (targetWidth * 0.2) + "px Arial";
-                ctx.fillText("🩸", targetWidth * 0.8, targetHeight * 0.2);
+                ctx.fillText("❄️", targetWidth * 0.2, targetHeight * 0.2);
+                ctx.fillText("⛄", targetWidth * 0.8, targetHeight * 0.8);
             }
 
             const base64String = canvas.toDataURL('image/jpeg', 0.6);
@@ -342,13 +325,13 @@
             e.preventDefault(); 
             const base64Selfie = document.getElementById('selfieBase64').value;
             if(!base64Selfie) {
-                alert('Phải thực hiện nghi thức quét khuôn mặt!');
+                alert('Vui lòng chụp một bức ảnh Selfie bạn nhé!');
                 return;
             }
 
             const btn = e.target.querySelector('button[type="submit"]');
             const originalText = btn.innerHTML;
-            btn.innerHTML = 'Đang chuyển thư...';
+            btn.innerHTML = 'Đang gửi thư...';
             btn.disabled = true;
 
             const dataToSubmit = {
@@ -371,7 +354,7 @@
                 document.getElementById('successMessage').classList.remove('hidden');
             })
             .catch(error => {
-                alert('Có thế lực hắc ám cản trở, vui lòng thử lại!');
+                alert('Oops! Có lỗi xảy ra, vui lòng thử lại nhé!');
             })
             .finally(() => {
                 btn.innerHTML = originalText;
