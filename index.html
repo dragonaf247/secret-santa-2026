@@ -15,19 +15,44 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
+        .glass-form {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
         /* Nút bấm giáng sinh */
         .btn-christmas {
             background: linear-gradient(135deg, #c0392b, #e74c3c);
             color: white;
             font-weight: bold;
             padding: 12px 24px;
-            border-radius: 9999px;
+            border-radius: 8px;
             box-shadow: 0 4px 15px rgba(192, 57, 43, 0.4);
             transition: all 0.3s ease;
+            width: 100%;
         }
         .btn-christmas:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(192, 57, 43, 0.6);
+            background: linear-gradient(135deg, #a93226, #cb4335);
+        }
+
+        /* Input styling */
+        .form-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-top: 5px;
+            transition: all 0.3s;
+            background-color: #f8fafc;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #27ae60;
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2);
+            background-color: #ffffff;
         }
 
         /* Hình nền Giáng sinh */
@@ -43,7 +68,6 @@
             overflow-x: hidden;
         }
 
-        /* Lớp phủ cho ảnh nền tối lại một chút để làm nổi bật nội dung */
         .overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -51,7 +75,6 @@
             z-index: -1;
         }
 
-        /* Thẻ tab bị khóa */
         .tab-locked {
             opacity: 0.6;
             cursor: not-allowed;
@@ -71,7 +94,7 @@
 
     <div class="container mx-auto px-4 py-10 max-w-4xl">
         
-        <!-- Header Cập nhật tiêu đề -->
+        <!-- Header -->
         <div class="text-center mb-10">
             <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-4 drop-shadow-lg" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
                 🎅 Noel Bí Ẩn Của 204 🎁
@@ -97,52 +120,87 @@
 
         <!-- Main Content Area - Part 1 -->
         <div class="glass-panel p-6 md:p-10">
-            
-            <!-- Nội dung Part 1 -->
-            <div id="part1" class="space-y-6">
+            <div id="part1">
                 <div class="text-center">
                     <h2 class="text-3xl font-bold text-red-700 mb-2">🎄 Bắt Đầu Hành Trình</h2>
-                    <div class="w-24 h-1 bg-green-600 mx-auto rounded-full mb-6"></div>
+                    <div class="w-24 h-1 bg-green-600 mx-auto rounded-full mb-8"></div>
                 </div>
 
-                <div class="grid md:grid-cols-2 gap-8 items-center">
-                    <!-- Ảnh minh họa hoặc Logo sự kiện (Dùng SVG tạm) -->
-                    <div class="flex justify-center">
-                        <svg class="w-48 h-48 text-red-600 animate-pulse" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z" clip-rule="evenodd"></path><path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"></path></svg>
+                <div class="grid md:grid-cols-5 gap-8 items-start">
+                    
+                    <!-- Cột trái: Luật chơi -->
+                    <div class="md:col-span-2 space-y-6">
+                        <div class="flex justify-center mb-4">
+                            <svg class="w-32 h-32 text-red-600 animate-pulse" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z" clip-rule="evenodd"></path><path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"></path></svg>
+                        </div>
+                        <div class="bg-white/60 p-5 rounded-xl border border-white">
+                            <h3 class="text-lg font-bold text-green-800 mb-3">📜 Luật Chơi Cơ Bản:</h3>
+                            <ul class="list-disc list-inside text-sm space-y-2 text-gray-700 font-medium">
+                                <li><strong>Bước 1:</strong> Điền form đăng ký bên cạnh.</li>
+                                <li><strong>Bước 2:</strong> BTC bốc thăm ẩn danh.</li>
+                                <li><strong>Bước 3:</strong> Bạn sẽ nhận được thông báo ai là người bạn cần tặng quà.</li>
+                                <li><strong>Bước 4:</strong> Chuẩn bị quà theo Wishlist.</li>
+                                <li><strong>Bước 5:</strong> Trao quà tại sự kiện của 204.</li>
+                            </ul>
+                        </div>
                     </div>
 
-                    <!-- Luật chơi -->
-                    <div class="bg-white/60 p-6 rounded-xl border border-white">
-                        <h3 class="text-xl font-bold text-green-800 mb-3">📜 Luật Chơi Cơ Bản:</h3>
-                        <ul class="list-disc list-inside space-y-2 text-gray-700 font-medium">
-                            <li><strong>Bước 1:</strong> Đăng ký tham gia và viết <em>Wishlist</em> (món muốn nhận) & <em>Blacklist</em> (món muốn né).</li>
-                            <li><strong>Bước 2:</strong> Hệ thống sẽ bốc thăm ngẫu nhiên & bí mật.</li>
-                            <li><strong>Bước 3:</strong> Bạn sẽ nhận được thông báo ẩn danh báo tên người bạn cần tặng quà.</li>
-                            <li><strong>Bước 4:</strong> Âm thầm chuẩn bị quà theo Wishlist của người đó.</li>
-                            <li><strong>Bước 5:</strong> Trao quà tại sự kiện chung của 204.</li>
-                        </ul>
-                    </div>
-                </div>
+                    <!-- Cột phải: Form Đăng ký -->
+                    <div class="md:col-span-3 glass-form p-6 border border-gray-100 relative">
+                        <h3 class="text-xl font-bold text-gray-800 border-b pb-3 mb-4 flex items-center">
+                            <span class="mr-2">✍️</span> Đơn Đăng Ký Secret Santa
+                        </h3>
+                        
+                        <!-- Hiệu ứng thông báo gửi thành công -->
+                        <div id="successMessage" class="hidden absolute inset-0 bg-white/95 rounded-xl flex flex-col items-center justify-center z-10 p-6 text-center">
+                            <div class="text-5xl mb-4">🎉</div>
+                            <h4 class="text-2xl font-bold text-green-600 mb-2">Đăng ký thành công!</h4>
+                            <p class="text-gray-600">Dữ liệu của bạn đã được ghi nhận. Hãy chờ đợi mật thư giao nhiệm vụ nhé!</p>
+                            <button onclick="document.getElementById('successMessage').classList.add('hidden')" class="mt-6 px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 text-sm font-medium transition">Đóng</button>
+                        </div>
 
-                <!-- Call to Action -->
-                <div class="text-center mt-10 p-6 bg-red-50 rounded-xl border border-red-100">
-                    <p class="text-lg font-semibold text-gray-800 mb-4">
-                        Thời hạn đăng ký sắp hết! Hãy nhanh tay điền thông tin để BTC kịp bốc thăm nhé.
-                    </p>
-                    
-                    <!-- THAY LINK FORM CỦA BẠN VÀO ĐÂY -->
-                    <a href="LINK_GOOGLE_FORM_CUA_BAN" target="_blank" class="btn-christmas inline-block text-lg">
-                        ✍️ Điền Đơn Đăng Ký Ngay
-                    </a>
-                    
+                        <!-- Form HTML -->
+                        <form id="santaForm" onsubmit="submitForm(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700">Họ và Tên của bạn <span class="text-red-500">*</span></label>
+                                <input type="text" id="name" required class="form-input" placeholder="Nhập họ tên...">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700">Phòng ban / Đội nhóm <span class="text-red-500">*</span></label>
+                                <input type="text" id="department" required class="form-input" placeholder="Ví dụ: Marketing, Sales, IT...">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 flex justify-between">
+                                    <span>🎁 Wishlist <span class="text-red-500">*</span></span>
+                                    <span class="text-xs text-gray-400 font-normal">Món quà bạn muốn nhận</span>
+                                </label>
+                                <textarea id="wishlist" required rows="2" class="form-input" placeholder="Gợi ý chi tiết: Sách kinh doanh, nến thơm..."></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 flex justify-between">
+                                    <span>🚫 Blacklist <span class="text-red-500">*</span></span>
+                                    <span class="text-xs text-gray-400 font-normal">Đồ không thích/dị ứng</span>
+                                </label>
+                                <textarea id="blacklist" required rows="2" class="form-input" placeholder="Ví dụ: Không ăn đồ ngọt, dị ứng nước hoa..."></textarea>
+                            </div>
+
+                            <button type="submit" class="btn-christmas text-lg mt-4 flex justify-center items-center">
+                                Gửi Đăng Ký 🎅
+                            </button>
+                        </form>
+                    </div>
+
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- Script tạo hiệu ứng tuyết rơi siêu nhẹ -->
+    <!-- Script tạo hiệu ứng tuyết rơi & Xử lý form gửi lên SheetDB -->
     <script>
+        // --- Hiệu ứng Tuyết Rơi ---
         function createSnowflakes() {
             const snowContainer = document.createElement('div');
             snowContainer.style.position = 'fixed';
@@ -171,14 +229,70 @@
         const style = document.createElement('style');
         style.innerHTML = `
             @keyframes fall {
-                to {
-                    transform: translateY(100vh) rotate(360deg);
-                }
+                to { transform: translateY(100vh) rotate(360deg); }
             }
         `;
         document.head.appendChild(style);
-        
         createSnowflakes();
+
+        // --- Xử lý sự kiện Submit Form và gửi về SheetDB ---
+        function submitForm(e) {
+            e.preventDefault(); // Ngăn trang reload
+            
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            
+            // 1. Đổi text nút thành Đang gửi...
+            btn.innerHTML = '<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Đang gửi...';
+            btn.disabled = true;
+
+            // 2. Lấy dữ liệu từ form
+            const nameValue = document.getElementById('name').value;
+            const deptValue = document.getElementById('department').value;
+            const wishValue = document.getElementById('wishlist').value;
+            const blackValue = document.getElementById('blacklist').value;
+            
+            const now = new Date();
+            const timeString = now.toLocaleString('vi-VN');
+
+            // 3. Đóng gói dữ liệu
+            const dataToSubmit = {
+                data: [
+                    {
+                        "thoigian": timeString,
+                        "hoten": nameValue,
+                        "phongban": deptValue,
+                        "wishlist": wishValue,
+                        "blacklist": blackValue
+                    }
+                ]
+            };
+
+            // 4. Gửi qua API của SheetDB
+            fetch('https://sheetdb.io/api/v1/fnqbi32e6xcc0', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataToSubmit)
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                // Hiển thị thông báo thành công
+                document.getElementById('successMessage').classList.remove('hidden');
+                e.target.reset(); // Xóa dữ liệu vừa nhập trên form
+            })
+            .catch((error) => {
+                alert('Oops! Có lỗi xảy ra, vui lòng thử lại nhé!');
+                console.error('Lỗi:', error);
+            })
+            .finally(() => {
+                // Phục hồi nút bấm
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
     </script>
 </body>
 </html>
