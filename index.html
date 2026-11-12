@@ -1,334 +1,92 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎄 Trạm Bưu Tá Secret Santa 2026 🎄</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { 
-            background-color: #1a472a; 
-            background-image: url('https://images.unsplash.com/photo-1543364195-bfe6e4932397?q=80&w=2070&auto=format&fit=crop'); 
-            background-size: cover; background-position: center; background-attachment: fixed; 
-            min-height: 100vh; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; position: relative; overflow-x: hidden; 
-        }
-        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 71, 42, 0.7); z-index: -1; }
-        .glass-panel { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); border-radius: 16px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); }
-        .glass-form { background: rgba(255, 255, 255, 0.95); border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); }
-        .btn-christmas { background: linear-gradient(135deg, #c0392b, #e74c3c); color: white; font-weight: bold; padding: 12px 24px; border-radius: 8px; box-shadow: 0 4px 15px rgba(192, 57, 43, 0.4); transition: all 0.3s ease; width: 100%; }
-        .btn-christmas:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(192, 57, 43, 0.6); background: linear-gradient(135deg, #a93226, #cb4335); }
-        .form-input { width: 100%; padding: 10px 15px; border: 1px solid #e2e8f0; border-radius: 8px; margin-top: 5px; transition: all 0.3s; background-color: #f8fafc; }
-        .form-input:focus { outline: none; border-color: #27ae60; box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2); background-color: #ffffff; }
-        .filter-btn { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; background: #e2e8f0; color: #475569; transition: all 0.2s; border: 2px solid transparent; cursor: pointer; }
-        .filter-btn:hover { background: #cbd5e1; }
-        .filter-btn.active { background: #fee2e2; color: #b91c1c; border-color: #ef4444; }
-        .tab-locked { opacity: 0.6; cursor: not-allowed; position: relative; }
-        .tab-locked::after { content: "🔒"; position: absolute; top: -10px; right: -10px; font-size: 1.2rem; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dọn Phòng Họp 204 — Đại Chiến Tổng Vệ Sinh</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="text-gray-800">
-    <!-- MÀN HÌNH CHẠM ĐỂ MỞ QUÀ (HOẠT ĐỘNG 100%) -->
-    <div id="startOverlay" class="fixed inset-0 bg-black/90 z-[200] flex flex-col items-center justify-center cursor-pointer transition-opacity duration-500" onclick="startExperience()">
-        <div class="text-8xl mb-6 animate-bounce">🎁</div>
-        <h2 class="text-3xl font-bold text-white mb-2">Chạm để mở hộp quà...</h2>
-        <p class="text-gray-400 text-sm">(Bắt đầu hành trình Secret Santa 2026)</p>
-    </div>
+<body>
+  <div id="app">
+    <!-- TOP HUD -->
+    <header id="hud">
+      <div class="hud-brand">
+        <span class="room-badge">PHÒNG 204</span>
+        <span class="sub-badge" id="level-name">Ca 1/4</span>
+      </div>
 
-    <div class="overlay"></div>
-
-    <div class="container mx-auto px-4 py-10 max-w-4xl relative z-10">
-        <div class="text-center mb-10">
-            <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-4 drop-shadow-lg" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
-                🎅 Trạm Bưu Tá Secret Santa
-            </h1>
-            <p class="text-xl text-green-100 font-medium">Chiến dịch Mùa Đông 2026 đã chính thức khởi động!</p>
+      <div class="hud-stats">
+        <div class="stat-pill" id="time-box" title="Thời gian còn lại">
+          <span class="stat-icon">⏱️</span>
+          <span class="stat-val" id="time">60</span><small>s</small>
         </div>
 
-        <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-8">
-            <button class="bg-white text-red-700 font-bold py-2 px-4 md:px-6 rounded-t-lg border-b-4 border-red-700 shadow-md">Part 1: The Gathering</button>
-            <button class="bg-gray-200 text-gray-500 font-semibold py-2 px-4 md:px-6 rounded-t-lg tab-locked">Part 2: The Whisper</button>
-            <button class="bg-gray-200 text-gray-500 font-semibold py-2 px-4 md:px-6 rounded-t-lg tab-locked">Part 3: The Sneaky Elf</button>
-            <button class="bg-gray-200 text-gray-500 font-semibold py-2 px-4 md:px-6 rounded-t-lg tab-locked">Part 4: The Reveal</button>
+        <div class="stat-pill" title="Điểm số">
+          <span class="stat-icon">⭐</span>
+          <span class="stat-val" id="score">0</span>
         </div>
 
-        <div class="glass-panel p-6 md:p-10">
-            <div id="part1">
-                <div class="text-center">
-                    <h2 class="text-3xl font-bold text-red-700 mb-2">🎄 Bắt Đầu Hành Trình</h2>
-                    <div class="w-24 h-1 bg-green-600 mx-auto rounded-full mb-8"></div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-start">
-                    <div class="md:col-span-2 space-y-6">
-                        <div class="flex justify-center mb-4">
-                            <svg class="w-32 h-32 text-red-600 animate-pulse" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z" clip-rule="evenodd"></path><path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"></path></svg>
-                        </div>
-                        <div class="bg-white/60 p-5 rounded-xl border border-white">
-                            <h3 class="text-lg font-bold text-green-800 mb-3">📜 Luật Chơi Cơ Bản:</h3>
-                            <ul class="list-disc list-inside text-sm space-y-2 text-gray-700 font-medium">
-                                <li><strong>Bước 1:</strong> Chụp ảnh Selfie xác minh danh tính.</li>
-                                <li><strong>Bước 2:</strong> BTC bốc thăm ẩn danh.</li>
-                                <li><strong>Bước 3:</strong> Nhận nhiệm vụ tặng quà.</li>
-                                <li><strong>Bước 4:</strong> Chuẩn bị quà theo Wishlist.</li>
-                                <li><strong>Bước 5:</strong> Trao quà tại sự kiện chung.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="md:col-span-3 glass-form p-6 border border-gray-100 relative">
-                        <h3 class="text-xl font-bold text-gray-800 border-b pb-3 mb-4 flex items-center">
-                            <span class="mr-2">✍️</span> Đơn Đăng Ký Secret Santa
-                        </h3>
-                        
-                        <div id="successMessage" class="hidden absolute inset-0 bg-white/95 rounded-xl flex flex-col items-center justify-center z-10 p-6 text-center">
-                            <div class="text-5xl mb-4">🎉</div>
-                            <h4 class="text-2xl font-bold text-green-600 mb-2">Đăng ký thành công!</h4>
-                            <p class="text-gray-600">Dữ liệu của bạn đã được ghi nhận. Hãy chờ đợi mật thư nhé!</p>
-                            <button onclick="resetWholeForm()" class="mt-6 px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 text-sm font-medium transition">Đóng & Gửi Thêm</button>
-                        </div>
-
-                        <form id="santaForm" onsubmit="submitForm(event)" class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700">Họ và Tên của bạn <span class="text-red-500">*</span></label>
-                                <input type="text" id="name" required class="form-input" placeholder="Nhập họ tên...">
-                            </div>
-                            
-                            <div class="bg-gray-50 p-4 rounded-lg border border-dashed border-gray-300">
-                                <label class="block text-sm font-bold text-gray-700 mb-3">Selfie Xác Minh (Bắt buộc) 📸 <span class="text-red-500">*</span></label>
-                                <div class="flex items-center gap-4">
-                                    <label for="selfie" class="cursor-pointer bg-red-100 text-red-700 px-4 py-2 rounded-lg border border-red-300 hover:bg-red-200 transition text-sm font-bold flex items-center">
-                                        Mở Camera Chụp
-                                    </label>
-                                    <input type="file" id="selfie" accept="image/*" capture="user" required class="hidden" onchange="loadOriginalImage(event)">
-                                    <img id="selfiePreview" src="" class="hidden w-24 h-24 object-cover rounded-md shadow-md border border-gray-300">
-                                </div>
-                                
-                                <div id="filterToolbar" class="hidden mt-4 p-3 bg-white rounded-lg border border-gray-200 shadow-sm">
-                                    <p class="text-xs font-bold text-gray-600 mb-2">Chọn Màu Ảnh & Khung Viền:</p>
-                                    <div class="flex flex-wrap gap-2">
-                                        <button type="button" class="filter-btn active" onclick="applyFilter('none', this)">Ảnh Gốc</button>
-                                        <button type="button" class="filter-btn" onclick="applyFilter('noel', this)">🎄 Viền Noel</button>
-                                        <button type="button" class="filter-btn" onclick="applyFilter('frost', this)">❄️ Băng Giá</button>
-                                        <button type="button" class="filter-btn" onclick="applyFilter('retro', this)">📜 Cổ Điển</button>
-                                        <button type="button" class="filter-btn" onclick="applyFilter('noir', this)">🎞️ Điện Ảnh (B&W)</button>
-                                    </div>
-                                </div>
-                                <input type="hidden" id="selfieBase64" required>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 flex justify-between">
-                                    <span>🎁 Wishlist <span class="text-red-500">*</span></span>
-                                </label>
-                                <textarea id="wishlist" required rows="2" class="form-input" placeholder="Gợi ý chi tiết: Sách kinh doanh, nến thơm..."></textarea>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 flex justify-between">
-                                    <span>🚫 Blacklist <span class="text-red-500">*</span></span>
-                                </label>
-                                <textarea id="blacklist" required rows="2" class="form-input" placeholder="Ví dụ: Không ăn đồ ngọt, dị ứng nước hoa..."></textarea>
-                            </div>
-
-                            <button type="submit" class="btn-christmas text-lg mt-4 flex justify-center items-center">
-                                Gửi Đăng Ký 🎅
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+        <div class="stat-pill combo-pill" id="combo-box" title="Chuỗi làm đúng liên tiếp">
+          <span class="stat-icon">🔥</span>
+          <span class="stat-val" id="combo">x0</span>
         </div>
-    </div>
 
-    <script>
-        // --- XỬ LÝ MỞ HỘP QUÀ AN TOÀN TUYỆT ĐỐI ---
-        function startExperience() {
-            const overlay = document.getElementById('startOverlay');
-            overlay.style.opacity = '0';
-            setTimeout(() => overlay.style.display = 'none', 500); 
-        }
+        <div class="stat-pill lives-pill" id="lives-box" title="Uy tín với Quản lý (Mất hết là bị đuổi việc!)">
+          <span id="lives">❤️❤️❤️</span>
+        </div>
+      </div>
 
-        // --- HIỆU ỨNG TUYẾT RƠI ---
-        function createSnowflakes() {
-            const snowContainer = document.createElement('div');
-            snowContainer.style.position = 'fixed'; snowContainer.style.top = '0'; snowContainer.style.left = '0';
-            snowContainer.style.width = '100%'; snowContainer.style.height = '100%';
-            snowContainer.style.pointerEvents = 'none'; snowContainer.style.zIndex = '9999';
-            document.body.appendChild(snowContainer);
+      <div class="progress-wrap">
+        <div class="progress-bar-bg">
+          <div id="progress-bar"></div>
+          <span id="progress-text">Tiến độ: 0/0 (0%)</span>
+        </div>
+      </div>
 
-            for (let i = 0; i < 30; i++) {
-                const flake = document.createElement('div');
-                flake.innerHTML = '❄';
-                flake.style.position = 'absolute'; flake.style.color = 'rgba(255, 255, 255, 0.6)';
-                flake.style.fontSize = Math.random() * 15 + 10 + 'px';
-                flake.style.left = Math.random() * 100 + 'vw'; flake.style.top = Math.random() * -100 + 'px';
-                flake.style.animation = `fall ${Math.random() * 5 + 5}s linear infinite`;
-                flake.style.animationDelay = `${Math.random() * 5}s`;
-                snowContainer.appendChild(flake);
-            }
-        }
-        const style = document.createElement('style');
-        style.innerHTML = `@keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }`;
-        document.head.appendChild(style);
-        createSnowflakes();
+      <div class="hud-actions">
+        <button class="icon-btn" id="btn-hint" title="Gợi ý vị trí lỗi ẩn (-15 điểm)">💡 <small>Gợi ý</small></button>
+        <button class="icon-btn" id="btn-mute" title="Bật/Tắt âm thanh">🔊</button>
+        <button class="icon-btn" id="btn-restart" title="Chơi lại màn này">🔄</button>
+      </div>
+    </header>
 
-        // --- XỬ LÝ ẢNH & VẼ KHUNG VIỀN ---
-        let originalImgObject = null; 
-        let targetWidth = 0;
-        let targetHeight = 0;
+    <!-- TASK CHECKLIST BAR -->
+    <section id="task-bar">
+      <div class="task-chip" id="task-sort">📦 Phân loại đồ: <b id="cnt-sort">0</b></div>
+      <div class="task-chip" id="task-wipe">🧽 Lau sàn & bảng: <b id="cnt-wipe">0</b></div>
+      <div class="task-chip" id="task-fix">🔧 Chỉnh nội thất: <b id="cnt-fix">0</b></div>
+      <div class="task-chip warn-chip" id="task-pest" style="display:none">🪳 Diệt gián: <b id="cnt-pest">0</b></div>
+    </section>
 
-        function loadOriginalImage(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+    <!-- MAIN ROOM 204 VIEWPORT -->
+    <main id="room-wrap">
+      <div id="room">
+        <img src="room204.jpg" alt="Sơ đồ Phòng 204" class="room-bg" draggable="false" />
+        <!-- Lớp chứa các điểm tương tác cố định trên sơ đồ Phòng 204 -->
+        <div id="hotspots-layer"></div>
+        <!-- Lớp chứa vết bẩn cần chà (sàn gạch vàng + bảng trắng) -->
+        <div id="stains-layer"></div>
+        <!-- Lớp chứa đồ vật bừa bộn + côn trùng -->
+        <div id="items-layer"></div>
+        <!-- Lớp hiệu ứng hạt / tia sáng -->
+        <div id="fx-layer"></div>
+      </div>
+    </main>
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                originalImgObject = new Image();
-                originalImgObject.onload = function() {
-                    const MAX_WIDTH = 400; 
-                    const MAX_HEIGHT = 400;
-                    targetWidth = originalImgObject.width;
-                    targetHeight = originalImgObject.height;
+    <!-- BOTTOM SORTING BINS -->
+    <section id="bins-wrap">
+      <div id="bins"></div>
+    </section>
+  </div>
 
-                    if (targetWidth > targetHeight) {
-                        if (targetWidth > MAX_WIDTH) { targetHeight *= MAX_WIDTH / targetWidth; targetWidth = MAX_WIDTH; }
-                    } else {
-                        if (targetHeight > MAX_HEIGHT) { targetWidth *= MAX_HEIGHT / targetHeight; targetHeight = MAX_HEIGHT; }
-                    }
-                    
-                    document.getElementById('filterToolbar').classList.remove('hidden');
-                    const btns = document.querySelectorAll('.filter-btn');
-                    btns.forEach(b => b.classList.remove('active'));
-                    btns[0].classList.add('active');
+  <!-- CON TRỎ CÔNG CỤ -->
+  <div id="sponge">🧽</div>
 
-                    applyFilter('none');
-                };
-                originalImgObject.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
+  <!-- MODAL OVERLAY -->
+  <div id="overlay" class="overlay">
+    <div class="modal-card" id="card"></div>
+  </div>
 
-        function applyFilter(filterType, btnElement) {
-            if (!originalImgObject) return;
-
-            if(btnElement) {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                btnElement.classList.add('active');
-            }
-
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = targetWidth;
-            canvas.height = targetHeight;
-            
-            if (filterType === 'retro') {
-                ctx.filter = 'sepia(80%) contrast(110%) brightness(90%)';
-            } else if (filterType === 'noir') {
-                ctx.filter = 'grayscale(100%) contrast(130%) brightness(85%)';
-            } else if (filterType === 'frost') {
-                ctx.filter = 'saturate(130%) hue-rotate(180deg) brightness(110%)';
-            } else if (filterType === 'noel') {
-                ctx.filter = 'saturate(130%) contrast(110%)';
-            } else {
-                ctx.filter = 'none';
-            }
-
-            ctx.drawImage(originalImgObject, 0, 0, targetWidth, targetHeight);
-
-            ctx.filter = 'none';
-            const frameWidth = targetWidth * 0.05; 
-
-            if (filterType === 'retro') {
-                ctx.lineWidth = frameWidth;
-                ctx.strokeStyle = '#8B4513'; 
-                ctx.strokeRect(frameWidth/2, frameWidth/2, targetWidth - frameWidth, targetHeight - frameWidth);
-                ctx.lineWidth = 2;
-                ctx.strokeStyle = '#DAA520'; 
-                ctx.strokeRect(frameWidth + 5, frameWidth + 5, targetWidth - 2*frameWidth - 10, targetHeight - 2*frameWidth - 10);
-            } 
-            else if (filterType === 'noir') {
-                ctx.fillStyle = '#000000';
-                ctx.fillRect(0, 0, targetWidth, frameWidth * 2.5);
-                ctx.fillRect(0, targetHeight - frameWidth * 2.5, targetWidth, frameWidth * 2.5);
-            } 
-            else if (filterType === 'frost') {
-                ctx.lineWidth = frameWidth;
-                ctx.strokeStyle = 'rgba(173, 216, 230, 0.6)'; 
-                ctx.strokeRect(frameWidth/2, frameWidth/2, targetWidth - frameWidth, targetHeight - frameWidth);
-                
-                ctx.font = (targetWidth * 0.12) + "px Arial";
-                ctx.textAlign = "center"; ctx.textBaseline = "middle";
-                ctx.fillStyle = "#ffffff";
-                ctx.fillText("❄️", frameWidth*1.5, frameWidth*1.5);
-                ctx.fillText("❄️", targetWidth - frameWidth*1.5, frameWidth*1.5);
-                ctx.fillText("❄️", frameWidth*1.5, targetHeight - frameWidth*1.5);
-                ctx.fillText("❄️", targetWidth - frameWidth*1.5, targetHeight - frameWidth*1.5);
-            }
-            else if (filterType === 'noel') {
-                ctx.lineWidth = frameWidth;
-                ctx.strokeStyle = '#c0392b'; 
-                ctx.strokeRect(frameWidth/2, frameWidth/2, targetWidth - frameWidth, targetHeight - frameWidth);
-                ctx.lineWidth = frameWidth / 2;
-                ctx.strokeStyle = '#27ae60'; 
-                ctx.strokeRect(frameWidth*1.2, frameWidth*1.2, targetWidth - frameWidth*2.4, targetHeight - frameWidth*2.4);
-            }
-
-            const base64String = canvas.toDataURL('image/jpeg', 0.6);
-            document.getElementById('selfiePreview').src = base64String;
-            document.getElementById('selfiePreview').classList.remove('hidden');
-            document.getElementById('selfieBase64').value = base64String;
-        }
-
-        // --- GỬI DỮ LIỆU ---
-        function submitForm(e) {
-            e.preventDefault(); 
-            const base64Selfie = document.getElementById('selfieBase64').value;
-            if(!base64Selfie) {
-                alert('Vui lòng chụp một bức ảnh Selfie bạn nhé!');
-                return;
-            }
-
-            const btn = e.target.querySelector('button[type="submit"]');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = 'Đang gửi thư...';
-            btn.disabled = true;
-
-            const dataToSubmit = {
-                data: [{
-                        "thoigian": new Date().toLocaleString('vi-VN'), 
-                        "hoten": document.getElementById('name').value, 
-                        "phongban": base64Selfie, 
-                        "wishlist": document.getElementById('wishlist').value, 
-                        "blacklist": document.getElementById('blacklist').value
-                }]
-            };
-
-            fetch('https://sheetdb.io/api/v1/fnqbi32e6xcc0', {
-                method: 'POST',
-                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify(dataToSubmit)
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('successMessage').classList.remove('hidden');
-            })
-            .catch(error => {
-                alert('Oops! Có lỗi xảy ra, vui lòng thử lại nhé!');
-            })
-            .finally(() => {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            });
-        }
-
-        function resetWholeForm() {
-            document.getElementById('successMessage').classList.add('hidden');
-            document.getElementById('santaForm').reset();
-            document.getElementById('selfiePreview').classList.add('hidden');
-            document.getElementById('selfieBase64').value = '';
-            document.getElementById('filterToolbar').classList.add('hidden');
-            originalImgObject = null;
-        }
-    </script>
+  <script src="game.js"></script>
 </body>
 </html>
