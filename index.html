@@ -27,34 +27,11 @@
     </style>
 </head>
 <body class="text-gray-800">
-    <!-- MÀN HÌNH CHẠM ĐỂ MỞ QUÀ & BẬT NHẠC -->
+    <!-- MÀN HÌNH CHẠM ĐỂ MỞ QUÀ (HOẠT ĐỘNG 100%) -->
     <div id="startOverlay" class="fixed inset-0 bg-black/90 z-[200] flex flex-col items-center justify-center cursor-pointer transition-opacity duration-500" onclick="startExperience()">
         <div class="text-8xl mb-6 animate-bounce">🎁</div>
         <h2 class="text-3xl font-bold text-white mb-2">Chạm để mở hộp quà...</h2>
-        <p class="text-gray-400 text-sm">(Nhớ bật âm thanh bạn nhé!)</p>
-    </div>
-
-    <!-- NÚT ĐIỀU KHIỂN & CHỌN NHẠC GÓC DƯỚI -->
-    <div class="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-2">
-        <div id="musicOptions" class="hidden bg-gray-900/80 backdrop-blur-md border border-gray-700 rounded-lg p-2 shadow-lg mb-1 w-48">
-            <p class="text-[10px] uppercase tracking-wider text-gray-400 font-bold mb-1 px-1">Đổi bài hát:</p>
-            <select id="songSelect" onchange="changeSong(this.value)" class="w-full bg-gray-800 text-white text-xs rounded border border-gray-600 p-1.5 outline-none cursor-pointer">
-                <option value="https://raw.githubusercontent.com/dragonaf247/secret-santa-2026/main/vincemcgill-santa-claus-614837.mp3">🎅 Santa Claus (Chính)</option>
-                <option value="https://cdn.pixabay.com/audio/2022/11/17/audio_0cb34ccdd9.mp3">🎄 Jingle Bells (Lo-fi)</option>
-                <option value="https://assets.mixkit.co/music/preview/mixkit-deck-the-halls-133.mp3">🎅 Deck The Halls</option>
-                <option value="local">📁 Mở file từ máy bạn...</option>
-            </select>
-        </div>
-        
-        <input type="file" id="localAudio" accept="audio/*" class="hidden" onchange="playLocalAudio(event)">
-
-        <button id="musicToggleBtn" onclick="toggleMusic()" class="bg-red-600 border-2 border-white text-white rounded-full px-4 py-2 shadow-[0_0_15px_rgba(255,0,0,0.5)] hover:bg-red-700 transition flex items-center justify-center font-bold text-sm hidden">
-            🔊 Đang Phát Nhạc
-        </button>
-
-        <audio id="bgMusic" loop>
-            <source src="https://raw.githubusercontent.com/dragonaf247/secret-santa-2026/main/vincemcgill-santa-claus-614837.mp3" type="audio/mpeg">
-        </audio>
+        <p class="text-gray-400 text-sm">(Bắt đầu hành trình Secret Santa 2026)</p>
     </div>
 
     <div class="overlay"></div>
@@ -164,35 +141,194 @@
     </div>
 
     <script>
-        const bgMusic = document.getElementById('bgMusic');
-        const musicBtn = document.getElementById('musicToggleBtn');
-        const musicOptions = document.getElementById('musicOptions');
-        let isPlaying = false;
-
+        // --- XỬ LÝ MỞ HỘP QUÀ AN TOÀN TUYỆT ĐỐI ---
         function startExperience() {
             const overlay = document.getElementById('startOverlay');
             overlay.style.opacity = '0';
             setTimeout(() => overlay.style.display = 'none', 500); 
+        }
 
-            bgMusic.volume = 0.5;
-            bgMusic.play().then(() => {
-                isPlaying = true;
-                musicBtn.classList.remove('hidden'); 
-                musicOptions.classList.remove('hidden'); 
-            }).catch(e => {
-                console.log("Trình duyệt chặn:", e);
-                musicBtn.classList.remove('hidden');
-                musicOptions.classList.remove('hidden');
-                musicBtn.innerHTML = '▶️ Bật Nhạc';
+        // --- HIỆU ỨNG TUYẾT RƠI ---
+        function createSnowflakes() {
+            const snowContainer = document.createElement('div');
+            snowContainer.style.position = 'fixed'; snowContainer.style.top = '0'; snowContainer.style.left = '0';
+            snowContainer.style.width = '100%'; snowContainer.style.height = '100%';
+            snowContainer.style.pointerEvents = 'none'; snowContainer.style.zIndex = '9999';
+            document.body.appendChild(snowContainer);
+
+            for (let i = 0; i < 30; i++) {
+                const flake = document.createElement('div');
+                flake.innerHTML = '❄';
+                flake.style.position = 'absolute'; flake.style.color = 'rgba(255, 255, 255, 0.6)';
+                flake.style.fontSize = Math.random() * 15 + 10 + 'px';
+                flake.style.left = Math.random() * 100 + 'vw'; flake.style.top = Math.random() * -100 + 'px';
+                flake.style.animation = `fall ${Math.random() * 5 + 5}s linear infinite`;
+                flake.style.animationDelay = `${Math.random() * 5}s`;
+                snowContainer.appendChild(flake);
+            }
+        }
+        const style = document.createElement('style');
+        style.innerHTML = `@keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }`;
+        document.head.appendChild(style);
+        createSnowflakes();
+
+        // --- XỬ LÝ ẢNH & VẼ KHUNG VIỀN ---
+        let originalImgObject = null; 
+        let targetWidth = 0;
+        let targetHeight = 0;
+
+        function loadOriginalImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                originalImgObject = new Image();
+                originalImgObject.onload = function() {
+                    const MAX_WIDTH = 400; 
+                    const MAX_HEIGHT = 400;
+                    targetWidth = originalImgObject.width;
+                    targetHeight = originalImgObject.height;
+
+                    if (targetWidth > targetHeight) {
+                        if (targetWidth > MAX_WIDTH) { targetHeight *= MAX_WIDTH / targetWidth; targetWidth = MAX_WIDTH; }
+                    } else {
+                        if (targetHeight > MAX_HEIGHT) { targetWidth *= MAX_HEIGHT / targetHeight; targetHeight = MAX_HEIGHT; }
+                    }
+                    
+                    document.getElementById('filterToolbar').classList.remove('hidden');
+                    const btns = document.querySelectorAll('.filter-btn');
+                    btns.forEach(b => b.classList.remove('active'));
+                    btns[0].classList.add('active');
+
+                    applyFilter('none');
+                };
+                originalImgObject.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function applyFilter(filterType, btnElement) {
+            if (!originalImgObject) return;
+
+            if(btnElement) {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btnElement.classList.add('active');
+            }
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+            
+            if (filterType === 'retro') {
+                ctx.filter = 'sepia(80%) contrast(110%) brightness(90%)';
+            } else if (filterType === 'noir') {
+                ctx.filter = 'grayscale(100%) contrast(130%) brightness(85%)';
+            } else if (filterType === 'frost') {
+                ctx.filter = 'saturate(130%) hue-rotate(180deg) brightness(110%)';
+            } else if (filterType === 'noel') {
+                ctx.filter = 'saturate(130%) contrast(110%)';
+            } else {
+                ctx.filter = 'none';
+            }
+
+            ctx.drawImage(originalImgObject, 0, 0, targetWidth, targetHeight);
+
+            ctx.filter = 'none';
+            const frameWidth = targetWidth * 0.05; 
+
+            if (filterType === 'retro') {
+                ctx.lineWidth = frameWidth;
+                ctx.strokeStyle = '#8B4513'; 
+                ctx.strokeRect(frameWidth/2, frameWidth/2, targetWidth - frameWidth, targetHeight - frameWidth);
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#DAA520'; 
+                ctx.strokeRect(frameWidth + 5, frameWidth + 5, targetWidth - 2*frameWidth - 10, targetHeight - 2*frameWidth - 10);
+            } 
+            else if (filterType === 'noir') {
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(0, 0, targetWidth, frameWidth * 2.5);
+                ctx.fillRect(0, targetHeight - frameWidth * 2.5, targetWidth, frameWidth * 2.5);
+            } 
+            else if (filterType === 'frost') {
+                ctx.lineWidth = frameWidth;
+                ctx.strokeStyle = 'rgba(173, 216, 230, 0.6)'; 
+                ctx.strokeRect(frameWidth/2, frameWidth/2, targetWidth - frameWidth, targetHeight - frameWidth);
+                
+                ctx.font = (targetWidth * 0.12) + "px Arial";
+                ctx.textAlign = "center"; ctx.textBaseline = "middle";
+                ctx.fillStyle = "#ffffff";
+                ctx.fillText("❄️", frameWidth*1.5, frameWidth*1.5);
+                ctx.fillText("❄️", targetWidth - frameWidth*1.5, frameWidth*1.5);
+                ctx.fillText("❄️", frameWidth*1.5, targetHeight - frameWidth*1.5);
+                ctx.fillText("❄️", targetWidth - frameWidth*1.5, targetHeight - frameWidth*1.5);
+            }
+            else if (filterType === 'noel') {
+                ctx.lineWidth = frameWidth;
+                ctx.strokeStyle = '#c0392b'; 
+                ctx.strokeRect(frameWidth/2, frameWidth/2, targetWidth - frameWidth, targetHeight - frameWidth);
+                ctx.lineWidth = frameWidth / 2;
+                ctx.strokeStyle = '#27ae60'; 
+                ctx.strokeRect(frameWidth*1.2, frameWidth*1.2, targetWidth - frameWidth*2.4, targetHeight - frameWidth*2.4);
+            }
+
+            const base64String = canvas.toDataURL('image/jpeg', 0.6);
+            document.getElementById('selfiePreview').src = base64String;
+            document.getElementById('selfiePreview').classList.remove('hidden');
+            document.getElementById('selfieBase64').value = base64String;
+        }
+
+        // --- GỬI DỮ LIỆU ---
+        function submitForm(e) {
+            e.preventDefault(); 
+            const base64Selfie = document.getElementById('selfieBase64').value;
+            if(!base64Selfie) {
+                alert('Vui lòng chụp một bức ảnh Selfie bạn nhé!');
+                return;
+            }
+
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Đang gửi thư...';
+            btn.disabled = true;
+
+            const dataToSubmit = {
+                data: [{
+                        "thoigian": new Date().toLocaleString('vi-VN'), 
+                        "hoten": document.getElementById('name').value, 
+                        "phongban": base64Selfie, 
+                        "wishlist": document.getElementById('wishlist').value, 
+                        "blacklist": document.getElementById('blacklist').value
+                }]
+            };
+
+            fetch('https://sheetdb.io/api/v1/fnqbi32e6xcc0', {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify(dataToSubmit)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('successMessage').classList.remove('hidden');
+            })
+            .catch(error => {
+                alert('Oops! Có lỗi xảy ra, vui lòng thử lại nhé!');
+            })
+            .finally(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
             });
         }
 
-        function toggleMusic() {
-            if (isPlaying) {
-                bgMusic.pause();
-                musicBtn.innerHTML = '🔇 Đã Tắt Nhạc';
-                musicBtn.classList.replace('bg-red-600', 'bg-gray-600');
-            } else {
-                bgMusic.play();
-                musicBtn.innerHTML = '🔊 Đang Phát Nhạc';
-                musicBtn.
+        function resetWholeForm() {
+            document.getElementById('successMessage').classList.add('hidden');
+            document.getElementById('santaForm').reset();
+            document.getElementById('selfiePreview').classList.add('hidden');
+            document.getElementById('selfieBase64').value = '';
+            document.getElementById('filterToolbar').classList.add('hidden');
+            originalImgObject = null;
+        }
+    </script>
+</body>
+</html>
