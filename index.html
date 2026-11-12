@@ -9,7 +9,6 @@
         /* GIAO DIỆN BÍ ẨN (DARK THEME) */
         body { 
             background-color: #0a0a0a; 
-            /* Ảnh nền rừng thông ban đêm tối mờ */
             background-image: url('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?q=80&w=2070&auto=format&fit=crop'); 
             background-size: cover; 
             background-position: center; 
@@ -23,7 +22,6 @@
         
         .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5, 5, 10, 0.85); z-index: -1; }
         
-        /* Box chứa nội dung tối mờ với viền đỏ phát sáng nhẹ */
         .glass-panel { 
             background: rgba(20, 20, 25, 0.7); 
             backdrop-filter: blur(12px); 
@@ -39,7 +37,6 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* Nút bấm ma mị */
         .btn-mystic { 
             background: linear-gradient(135deg, #7f1d1d, #991b1b); 
             color: #fff; 
@@ -57,7 +54,6 @@
             background: linear-gradient(135deg, #991b1b, #b91c1c); 
         }
 
-        /* Form Input nền tối */
         .form-input { 
             width: 100%; padding: 10px 15px; border: 1px solid #334155; border-radius: 8px; margin-top: 5px; 
             transition: all 0.3s; background-color: #1e293b; color: white;
@@ -65,8 +61,7 @@
         .form-input:focus { outline: none; border-color: #dc2626; box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2); }
         .form-input::placeholder { color: #64748b; }
 
-        /* Nút Filter */
-        .filter-btn { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; background: #334155; color: #cbd5e1; transition: all 0.2s; border: 1px solid #475569; }
+        .filter-btn { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; background: #334155; color: #cbd5e1; transition: all 0.2s; border: 1px solid #475569; cursor: pointer; }
         .filter-btn:hover { background: #475569; }
         .filter-btn.active { background: #7f1d1d; color: #fff; border-color: #ef4444; box-shadow: 0 0 10px rgba(220,38,38,0.5); }
 
@@ -74,7 +69,6 @@
         .tab-locked::after { content: "🔒"; position: absolute; top: -10px; right: -10px; font-size: 1.2rem; }
         .tab-active { background: #1a1a1a !important; color: #ef4444 !important; border-bottom: 4px solid #dc2626 !important; }
 
-        /* Tiêu đề phát sáng */
         .glow-text {
             text-shadow: 0 0 10px rgba(220, 38, 38, 0.8), 0 0 20px rgba(220, 38, 38, 0.5);
         }
@@ -89,7 +83,6 @@
             🎵 Bật Nhạc
         </button>
         <audio id="bgMusic" loop>
-            <!-- Link nhạc Giáng sinh huyền bí không bản quyền -->
             <source src="https://assets.mixkit.co/music/preview/mixkit-christmas-magic-147.mp3" type="audio/mpeg">
         </audio>
     </div>
@@ -110,4 +103,290 @@
         </div>
 
         <div class="glass-panel p-6 md:p-10">
-            <div id="part1
+            <div id="part1">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold text-red-500 mb-2">Trạm Bưu Tá Hắc Ám</h2>
+                    <div class="w-24 h-1 bg-red-700 mx-auto rounded-full mb-8 shadow-[0_0_10px_red]"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-start">
+                    
+                    <!-- Phần Luật Chơi (Trái) -->
+                    <div class="md:col-span-2 space-y-6">
+                        <div class="flex justify-center mb-4">
+                            <svg class="w-32 h-32 text-red-700 animate-pulse drop-shadow-[0_0_15px_red]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                        </div>
+                        <div class="bg-black/50 p-5 rounded-xl border border-red-900/50">
+                            <h3 class="text-lg font-bold text-red-400 mb-3 border-b border-red-900/50 pb-2">📜 Giao Ước:</h3>
+                            <ul class="list-disc list-inside text-sm space-y-3 text-gray-300">
+                                <li>Khai báo danh tính qua ảnh selfie.</li>
+                                <li>Hệ thống bốc thăm ẩn danh trong bóng tối.</li>
+                                <li>Giữ kín nhiệm vụ tuyệt đối.</li>
+                                <li>Sự sống còn nằm ở món quà bạn chọn.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Phần Form Đăng Ký (Phải) -->
+                    <div class="md:col-span-3 glass-form p-6 relative">
+                        <h3 class="text-xl font-bold text-gray-200 border-b border-gray-700 pb-3 mb-4 flex items-center">
+                            🩸 Bản Đăng Ký
+                        </h3>
+                        
+                        <div id="successMessage" class="hidden absolute inset-0 bg-black/95 rounded-xl flex flex-col items-center justify-center z-10 p-6 text-center border border-red-500">
+                            <div class="text-5xl mb-4">🕯️</div>
+                            <h4 class="text-2xl font-bold text-red-500 mb-2 glow-text">Giao ước thành công!</h4>
+                            <p class="text-gray-400">Tên của bạn đã được ghi vào sổ Nam Tào. Hãy chờ đợi mật thư...</p>
+                            <button onclick="resetWholeForm()" class="mt-6 px-4 py-2 bg-red-900 rounded-lg hover:bg-red-800 text-white font-medium transition shadow-[0_0_10px_red]">Đóng</button>
+                        </div>
+
+                        <form id="santaForm" onsubmit="submitForm(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-300">Tên Định Danh <span class="text-red-500">*</span></label>
+                                <input type="text" id="name" required class="form-input" placeholder="Tên gọi của bạn...">
+                            </div>
+                            
+                            <!-- Selfie + Sticker Noel -->
+                            <div class="bg-black/40 p-4 rounded-lg border border-dashed border-red-900">
+                                <label class="block text-sm font-bold text-gray-300 mb-3">Nghi Thức Quét Khuôn Mặt 📸 <span class="text-red-500">*</span></label>
+                                <div class="flex items-center gap-4">
+                                    <label for="selfie" class="cursor-pointer bg-black text-red-500 px-4 py-2 rounded-lg border border-red-700 hover:bg-red-900 hover:text-white transition text-sm font-bold flex items-center shadow-[0_0_10px_rgba(220,38,38,0.3)]">
+                                        Mở Camera
+                                    </label>
+                                    <input type="file" id="selfie" accept="image/*" capture="user" required class="hidden" onchange="loadOriginalImage(event)">
+                                    <img id="selfiePreview" src="" class="hidden w-24 h-24 object-cover rounded-full border-2 border-red-500 shadow-[0_0_15px_red]">
+                                </div>
+                                
+                                <div id="filterToolbar" class="hidden mt-4 p-3 bg-gray-900 rounded-lg border border-gray-700">
+                                    <p class="text-xs font-bold text-gray-400 mb-2">Hóa Trang:</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <button type="button" class="filter-btn active" onclick="applyFilter('none', this)">Gốc</button>
+                                        <button type="button" class="filter-btn" onclick="applyFilter('santa', this)">🎅 Mũ Santa</button>
+                                        <button type="button" class="filter-btn" onclick="applyFilter('reindeer', this)">🦌 Sừng Lộc</button>
+                                        <button type="button" class="filter-btn" onclick="applyFilter('snow', this)">❄️ Băng Giá</button>
+                                        <button type="button" class="filter-btn" onclick="applyFilter('dark', this)">🩸 Hắc Ám</button>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" id="selfieBase64" required>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold text-gray-300 flex justify-between">
+                                    <span>🎁 Vật Phẩm Cầu Xin <span class="text-red-500">*</span></span>
+                                </label>
+                                <textarea id="wishlist" required rows="2" class="form-input" placeholder="Ghi khao khát của bạn vào đây..."></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold text-gray-300 flex justify-between">
+                                    <span>🚫 Vật Phẩm Độc Hại <span class="text-red-500">*</span></span>
+                                </label>
+                                <textarea id="blacklist" required rows="2" class="form-input" placeholder="Những thứ bạn ghét hoặc bị dị ứng..."></textarea>
+                            </div>
+
+                            <button type="submit" class="btn-mystic text-lg mt-4 flex justify-center items-center">
+                                Ký Giao Ước 🩸
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Xử Lý Nhạc, Tuyết và Form -->
+    <script>
+        // Bật/Tắt Nhạc
+        const bgMusic = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicToggleBtn');
+        let isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicBtn.innerHTML = '🎵 Bật Nhạc';
+                musicBtn.classList.add('animate-bounce');
+            } else {
+                bgMusic.play();
+                musicBtn.innerHTML = '🔊 Đang Phát...';
+                musicBtn.classList.remove('animate-bounce');
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Tuyết rơi màu đỏ/xám ma mị
+        function createSnowflakes() {
+            const snowContainer = document.createElement('div');
+            snowContainer.style.position = 'fixed'; snowContainer.style.top = '0'; snowContainer.style.left = '0';
+            snowContainer.style.width = '100%'; snowContainer.style.height = '100%';
+            snowContainer.style.pointerEvents = 'none'; snowContainer.style.zIndex = '9999';
+            document.body.appendChild(snowContainer);
+
+            const particles = ['❄', '•', '·']; 
+            for (let i = 0; i < 40; i++) {
+                const flake = document.createElement('div');
+                flake.innerHTML = particles[Math.floor(Math.random() * particles.length)];
+                flake.style.position = 'absolute'; 
+                flake.style.color = Math.random() > 0.8 ? 'rgba(220, 38, 38, 0.4)' : 'rgba(255, 255, 255, 0.2)';
+                flake.style.fontSize = Math.random() * 15 + 10 + 'px';
+                flake.style.left = Math.random() * 100 + 'vw'; 
+                flake.style.top = Math.random() * -100 + 'px';
+                flake.style.animation = `fall ${Math.random() * 7 + 5}s linear infinite`;
+                flake.style.animationDelay = `${Math.random() * 5}s`;
+                snowContainer.appendChild(flake);
+            }
+        }
+        const style = document.createElement('style');
+        style.innerHTML = `@keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }`;
+        document.head.appendChild(style);
+        createSnowflakes();
+
+        // --- XỬ LÝ ẢNH & VẼ STICKER LÊN CANVAS ---
+        let originalImgObject = null; 
+        let targetWidth = 0;
+        let targetHeight = 0;
+
+        function loadOriginalImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                originalImgObject = new Image();
+                originalImgObject.onload = function() {
+                    const MAX_WIDTH = 400; 
+                    const MAX_HEIGHT = 400;
+                    targetWidth = originalImgObject.width;
+                    targetHeight = originalImgObject.height;
+
+                    if (targetWidth > targetHeight) {
+                        if (targetWidth > MAX_WIDTH) { targetHeight *= MAX_WIDTH / targetWidth; targetWidth = MAX_WIDTH; }
+                    } else {
+                        if (targetHeight > MAX_HEIGHT) { targetWidth *= MAX_HEIGHT / targetHeight; targetHeight = MAX_HEIGHT; }
+                    }
+                    
+                    document.getElementById('filterToolbar').classList.remove('hidden');
+                    
+                    const btns = document.querySelectorAll('.filter-btn');
+                    btns.forEach(b => b.classList.remove('active'));
+                    btns[0].classList.add('active');
+
+                    applyFilter('none');
+                };
+                originalImgObject.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Hàm vẽ Sticker và Filter màu
+        function applyFilter(filterType, btnElement) {
+            if (!originalImgObject) return;
+
+            if(btnElement) {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btnElement.classList.add('active');
+            }
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+            
+            if(filterType === 'dark') {
+                ctx.filter = 'grayscale(100%) contrast(150%) brightness(50%)';
+            } else {
+                ctx.filter = 'none';
+            }
+
+            ctx.drawImage(originalImgObject, 0, 0, targetWidth, targetHeight);
+            ctx.filter = 'none';
+
+            if(filterType === 'santa') {
+                ctx.font = (targetWidth * 0.4) + "px Arial";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "bottom";
+                ctx.fillText("🎅", targetWidth / 2, targetHeight * 0.4); 
+            } 
+            else if(filterType === 'reindeer') {
+                ctx.font = (targetWidth * 0.4) + "px Arial";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "bottom";
+                ctx.fillText("🦌", targetWidth / 2, targetHeight * 0.35);
+            } 
+            else if(filterType === 'snow') {
+                ctx.fillStyle = "rgba(173, 216, 230, 0.25)";
+                ctx.fillRect(0, 0, targetWidth, targetHeight);
+                ctx.font = (targetWidth * 0.15) + "px Arial";
+                ctx.fillText("❄️", targetWidth * 0.15, targetHeight * 0.2);
+                ctx.fillText("❄️", targetWidth * 0.85, targetHeight * 0.8);
+                ctx.fillText("❄️", targetWidth * 0.8, targetHeight * 0.25);
+                ctx.fillText("❄️", targetWidth * 0.2, targetHeight * 0.85);
+            }
+            else if(filterType === 'dark') {
+                ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
+                ctx.fillRect(0, 0, targetWidth, targetHeight);
+                ctx.font = (targetWidth * 0.2) + "px Arial";
+                ctx.fillText("🩸", targetWidth * 0.8, targetHeight * 0.2);
+            }
+
+            const base64String = canvas.toDataURL('image/jpeg', 0.6);
+            document.getElementById('selfiePreview').src = base64String;
+            document.getElementById('selfiePreview').classList.remove('hidden');
+            document.getElementById('selfieBase64').value = base64String;
+        }
+
+        // --- GỬI DỮ LIỆU ---
+        function submitForm(e) {
+            e.preventDefault(); 
+            const base64Selfie = document.getElementById('selfieBase64').value;
+            if(!base64Selfie) {
+                alert('Phải thực hiện nghi thức quét khuôn mặt!');
+                return;
+            }
+
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Đang chuyển thư...';
+            btn.disabled = true;
+
+            const dataToSubmit = {
+                data: [{
+                        "thoigian": new Date().toLocaleString('vi-VN'), 
+                        "hoten": document.getElementById('name').value, 
+                        "phongban": base64Selfie, 
+                        "wishlist": document.getElementById('wishlist').value, 
+                        "blacklist": document.getElementById('blacklist').value
+                }]
+            };
+
+            fetch('https://sheetdb.io/api/v1/fnqbi32e6xcc0', {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify(dataToSubmit)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('successMessage').classList.remove('hidden');
+            })
+            .catch(error => {
+                alert('Có thế lực hắc ám cản trở, vui lòng thử lại!');
+            })
+            .finally(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+
+        function resetWholeForm() {
+            document.getElementById('successMessage').classList.add('hidden');
+            document.getElementById('santaForm').reset();
+            document.getElementById('selfiePreview').classList.add('hidden');
+            document.getElementById('selfieBase64').value = '';
+            document.getElementById('filterToolbar').classList.add('hidden');
+            originalImgObject = null;
+        }
+    </script>
+</body>
+</html>
