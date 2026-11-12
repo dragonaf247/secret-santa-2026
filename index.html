@@ -6,83 +6,47 @@
     <title>🎄 Trạm Bưu Tá Secret Santa 2026 🎄</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* GIAO DIỆN GIÁNG SINH TƯƠI SÁNG */
         body { 
             background-color: #1a472a; 
-            /* Ảnh nền rừng thông ban ngày có tuyết */
             background-image: url('https://images.unsplash.com/photo-1543364195-bfe6e4932397?q=80&w=2070&auto=format&fit=crop'); 
-            background-size: cover; 
-            background-position: center; 
-            background-attachment: fixed; 
-            min-height: 100vh; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            position: relative; 
-            overflow-x: hidden; 
+            background-size: cover; background-position: center; background-attachment: fixed; 
+            min-height: 100vh; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; position: relative; overflow-x: hidden; 
         }
-        
         .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 71, 42, 0.7); z-index: -1; }
-        
-        .glass-panel { 
-            background: rgba(255, 255, 255, 0.85); 
-            backdrop-filter: blur(10px); 
-            border-radius: 16px; 
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); 
-            border: 1px solid rgba(255, 255, 255, 0.3); 
-        }
-        
-        .glass-form { 
-            background: rgba(255, 255, 255, 0.95); 
-            border-radius: 12px; 
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); 
-        }
-
-        .btn-christmas { 
-            background: linear-gradient(135deg, #c0392b, #e74c3c); 
-            color: white; 
-            font-weight: bold; 
-            padding: 12px 24px; 
-            border-radius: 8px; 
-            box-shadow: 0 4px 15px rgba(192, 57, 43, 0.4); 
-            transition: all 0.3s ease; 
-            width: 100%; 
-        }
-        .btn-christmas:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 6px 20px rgba(192, 57, 43, 0.6); 
-            background: linear-gradient(135deg, #a93226, #cb4335); 
-        }
-
-        .form-input { 
-            width: 100%; padding: 10px 15px; border: 1px solid #e2e8f0; border-radius: 8px; margin-top: 5px; 
-            transition: all 0.3s; background-color: #f8fafc; 
-        }
+        .glass-panel { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); border-radius: 16px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .glass-form { background: rgba(255, 255, 255, 0.95); border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); }
+        .btn-christmas { background: linear-gradient(135deg, #c0392b, #e74c3c); color: white; font-weight: bold; padding: 12px 24px; border-radius: 8px; box-shadow: 0 4px 15px rgba(192, 57, 43, 0.4); transition: all 0.3s ease; width: 100%; }
+        .btn-christmas:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(192, 57, 43, 0.6); background: linear-gradient(135deg, #a93226, #cb4335); }
+        .form-input { width: 100%; padding: 10px 15px; border: 1px solid #e2e8f0; border-radius: 8px; margin-top: 5px; transition: all 0.3s; background-color: #f8fafc; }
         .form-input:focus { outline: none; border-color: #27ae60; box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2); background-color: #ffffff; }
-
         .filter-btn { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; background: #e2e8f0; color: #475569; transition: all 0.2s; border: 2px solid transparent; cursor: pointer; }
         .filter-btn:hover { background: #cbd5e1; }
         .filter-btn.active { background: #fee2e2; color: #b91c1c; border-color: #ef4444; }
-
         .tab-locked { opacity: 0.6; cursor: not-allowed; position: relative; }
         .tab-locked::after { content: "🔒"; position: absolute; top: -10px; right: -10px; font-size: 1.2rem; }
     </style>
 </head>
 <body class="text-gray-800">
-    <!-- Overlay yêu cầu Click để phát nhạc (Mẹo lách luật Autoplay của trình duyệt) -->
-    <div id="startOverlay" class="fixed inset-0 bg-black/80 z-[100] flex flex-col items-center justify-center cursor-pointer" onclick="startExperience()">
-        <div class="text-6xl mb-4 animate-bounce">🎁</div>
-        <h2 class="text-3xl font-bold text-white mb-2">Chạm để mở quà...</h2>
-        <p class="text-gray-300">(Và bật nhạc Giáng sinh)</p>
+    <!-- MÀN HÌNH CHẠM ĐỂ MỞ QUÀ & BẬT NHẠC -->
+    <div id="startOverlay" class="fixed inset-0 bg-black/90 z-[200] flex flex-col items-center justify-center cursor-pointer transition-opacity duration-500" onclick="startExperience()">
+        <div class="text-8xl mb-6 animate-bounce">🎁</div>
+        <h2 class="text-3xl font-bold text-white mb-2">Chạm để mở hộp quà...</h2>
+        <p class="text-gray-400 text-sm">(Nhớ bật âm thanh bạn nhé!)</p>
+    </div>
+
+    <!-- NÚT ĐIỀU KHIỂN NHẠC GÓC DƯỚI -->
+    <div class="fixed bottom-6 right-6 z-[100]">
+        <button id="musicToggleBtn" onclick="toggleMusic()" class="bg-red-600 border-2 border-white text-white rounded-full px-4 py-2 shadow-[0_0_15px_rgba(255,0,0,0.5)] hover:bg-red-700 transition flex items-center justify-center font-bold text-sm hidden">
+            🔊 Đang Phát Nhạc
+        </button>
+        <audio id="bgMusic" loop>
+            <source src="https://cdn.pixabay.com/audio/2022/11/17/audio_0cb34ccdd9.mp3" type="audio/mpeg">
+        </audio>
     </div>
 
     <div class="overlay"></div>
 
-    <!-- Nhạc nền ẩn -->
-    <audio id="bgMusic" loop>
-        <source src="https://assets.mixkit.co/music/preview/mixkit-deck-the-halls-133.mp3" type="audio/mpeg">
-    </audio>
-
     <div class="container mx-auto px-4 py-10 max-w-4xl relative z-10">
-        
         <div class="text-center mb-10">
             <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-4 drop-shadow-lg" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
                 🎅 Trạm Bưu Tá Secret Santa
@@ -105,7 +69,6 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-start">
-                    
                     <!-- Luật Chơi -->
                     <div class="md:col-span-2 space-y-6">
                         <div class="flex justify-center mb-4">
@@ -114,7 +77,7 @@
                         <div class="bg-white/60 p-5 rounded-xl border border-white">
                             <h3 class="text-lg font-bold text-green-800 mb-3">📜 Luật Chơi Cơ Bản:</h3>
                             <ul class="list-disc list-inside text-sm space-y-2 text-gray-700 font-medium">
-                                <li><strong>Bước 1:</strong> Chụp ảnh Selfie ngầu đét và điền form.</li>
+                                <li><strong>Bước 1:</strong> Chụp ảnh Selfie xác minh danh tính.</li>
                                 <li><strong>Bước 2:</strong> BTC bốc thăm ẩn danh.</li>
                                 <li><strong>Bước 3:</strong> Nhận nhiệm vụ tặng quà.</li>
                                 <li><strong>Bước 4:</strong> Chuẩn bị quà theo Wishlist.</li>
@@ -132,7 +95,7 @@
                         <div id="successMessage" class="hidden absolute inset-0 bg-white/95 rounded-xl flex flex-col items-center justify-center z-10 p-6 text-center">
                             <div class="text-5xl mb-4">🎉</div>
                             <h4 class="text-2xl font-bold text-green-600 mb-2">Đăng ký thành công!</h4>
-                            <p class="text-gray-600">Dữ liệu của bạn đã được ghi nhận. Hãy chờ đợi mật thư giao nhiệm vụ nhé!</p>
+                            <p class="text-gray-600">Dữ liệu của bạn đã được ghi nhận. Hãy chờ đợi mật thư nhé!</p>
                             <button onclick="resetWholeForm()" class="mt-6 px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 text-sm font-medium transition">Đóng & Gửi Thêm</button>
                         </div>
 
@@ -142,7 +105,7 @@
                                 <input type="text" id="name" required class="form-input" placeholder="Nhập họ tên...">
                             </div>
                             
-                            <!-- Selfie + Filter Đặc Sắc -->
+                            <!-- Selfie + Filter & Frame Đặc Sắc -->
                             <div class="bg-gray-50 p-4 rounded-lg border border-dashed border-gray-300">
                                 <label class="block text-sm font-bold text-gray-700 mb-3">Selfie Xác Minh (Bắt buộc) 📸 <span class="text-red-500">*</span></label>
                                 <div class="flex items-center gap-4">
@@ -150,20 +113,19 @@
                                         Mở Camera Chụp
                                     </label>
                                     <input type="file" id="selfie" accept="image/*" capture="user" required class="hidden" onchange="loadOriginalImage(event)">
-                                    <img id="selfiePreview" src="" class="hidden w-24 h-24 object-cover rounded-xl border-2 border-green-500 shadow-md">
+                                    <img id="selfiePreview" src="" class="hidden w-24 h-24 object-cover rounded-md shadow-md border border-gray-300">
                                 </div>
                                 
                                 <div id="filterToolbar" class="hidden mt-4 p-3 bg-white rounded-lg border border-gray-200 shadow-sm">
-                                    <p class="text-xs font-bold text-gray-600 mb-2">Chọn Sticker Trang Trí:</p>
+                                    <p class="text-xs font-bold text-gray-600 mb-2">Chọn Màu Ảnh & Khung Viền:</p>
                                     <div class="flex flex-wrap gap-2">
                                         <button type="button" class="filter-btn active" onclick="applyFilter('none', this)">Ảnh Gốc</button>
-                                        <button type="button" class="filter-btn" onclick="applyFilter('santa', this)">🎅 Mũ Noel</button>
-                                        <button type="button" class="filter-btn" onclick="applyFilter('thuglife', this)">😎 Kính Ngầu</button>
-                                        <button type="button" class="filter-btn" onclick="applyFilter('reindeer', this)">🦌 Mũi Đỏ</button>
-                                        <button type="button" class="filter-btn" onclick="applyFilter('snow', this)">❄️ Băng Giá</button>
+                                        <button type="button" class="filter-btn" onclick="applyFilter('noel', this)">🎄 Viền Noel</button>
+                                        <button type="button" class="filter-btn" onclick="applyFilter('frost', this)">❄️ Băng Giá</button>
+                                        <button type="button" class="filter-btn" onclick="applyFilter('retro', this)">📜 Cổ Điển</button>
+                                        <button type="button" class="filter-btn" onclick="applyFilter('noir', this)">🎞️ Điện Ảnh (B&W)</button>
                                     </div>
                                 </div>
-
                                 <input type="hidden" id="selfieBase64" required>
                             </div>
 
@@ -193,14 +155,40 @@
     </div>
 
     <script>
-        // --- XỬ LÝ NHẠC AUTOPLAY LÁCH LUẬT ---
+        // --- XỬ LÝ NHẠC & MÀN HÌNH CHÀO MỪNG ---
+        const bgMusic = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicToggleBtn');
+        let isPlaying = false;
+
         function startExperience() {
-            // Ẩn màn hình chào
-            document.getElementById('startOverlay').style.display = 'none';
-            // Phát nhạc
-            const bgMusic = document.getElementById('bgMusic');
-            bgMusic.volume = 0.5; // Âm lượng vừa phải
-            bgMusic.play().catch(e => console.log("Trình duyệt vẫn chặn nhạc:", e));
+            const overlay = document.getElementById('startOverlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => overlay.style.display = 'none', 500); 
+
+            bgMusic.volume = 0.5;
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                musicBtn.classList.remove('hidden'); 
+            }).catch(e => {
+                console.log("Trình duyệt chặn:", e);
+                musicBtn.classList.remove('hidden');
+                musicBtn.innerHTML = '▶️ Bật Nhạc';
+            });
+        }
+
+        function toggleMusic() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicBtn.innerHTML = '🔇 Đã Tắt Nhạc';
+                musicBtn.classList.remove('bg-red-600');
+                musicBtn.classList.add('bg-gray-600');
+            } else {
+                bgMusic.play();
+                musicBtn.innerHTML = '🔊 Đang Phát Nhạc';
+                musicBtn.classList.remove('bg-gray-600');
+                musicBtn.classList.add('bg-red-600');
+            }
+            isPlaying = !isPlaying;
         }
 
         // --- HIỆU ỨNG TUYẾT RƠI ---
@@ -227,7 +215,7 @@
         document.head.appendChild(style);
         createSnowflakes();
 
-        // --- XỬ LÝ ẢNH & STICKER ĐẶC SẮC ---
+        // --- XỬ LÝ ẢNH & VẼ KHUNG VIỀN ---
         let originalImgObject = null; 
         let targetWidth = 0;
         let targetHeight = 0;
@@ -263,7 +251,7 @@
             reader.readAsDataURL(file);
         }
 
-        // Vẽ Sticker
+        // Áp dụng màu ảnh và vẽ viền
         function applyFilter(filterType, btnElement) {
             if (!originalImgObject) return;
 
@@ -277,41 +265,64 @@
             canvas.width = targetWidth;
             canvas.height = targetHeight;
             
-            // Vẽ ảnh gốc
+            // 1. CHỈNH MÀU ẢNH TRƯỚC KHI VẼ
+            if (filterType === 'retro') {
+                ctx.filter = 'sepia(80%) contrast(110%) brightness(90%)';
+            } else if (filterType === 'noir') {
+                ctx.filter = 'grayscale(100%) contrast(130%) brightness(85%)';
+            } else if (filterType === 'frost') {
+                ctx.filter = 'saturate(130%) hue-rotate(180deg) brightness(110%)';
+            } else if (filterType === 'noel') {
+                ctx.filter = 'saturate(130%) contrast(110%)';
+            } else {
+                ctx.filter = 'none';
+            }
+
+            // Vẽ ảnh gốc (đã được áp filter màu)
             ctx.drawImage(originalImgObject, 0, 0, targetWidth, targetHeight);
 
-            // Tùy chỉnh Filter & Sticker
-            if(filterType === 'santa') {
-                // Mũ đỏ trên đầu
-                ctx.font = (targetWidth * 0.5) + "px Arial";
-                ctx.textAlign = "center";
-                ctx.textBaseline = "bottom";
-                ctx.fillText("🎅", targetWidth / 2, targetHeight * 0.4); 
+            // 2. TẮT CHỈNH MÀU ĐỂ VẼ KHUNG VIỀN MÀU CHUẨN
+            ctx.filter = 'none';
+            const frameWidth = targetWidth * 0.05; // Độ dày khung viền tỉ lệ với kích thước ảnh
+
+            if (filterType === 'retro') {
+                // Viền gỗ đôi
+                ctx.lineWidth = frameWidth;
+                ctx.strokeStyle = '#8B4513'; // Nâu viền ngoài
+                ctx.strokeRect(frameWidth/2, frameWidth/2, targetWidth - frameWidth, targetHeight - frameWidth);
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#DAA520'; // Vàng gold viền trong
+                ctx.strokeRect(frameWidth + 5, frameWidth + 5, targetWidth - 2*frameWidth - 10, targetHeight - 2*frameWidth - 10);
             } 
-            else if(filterType === 'thuglife') {
-                // Kính râm cực ngầu giữa mặt
-                ctx.font = (targetWidth * 0.6) + "px Arial";
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.fillText("🕶️", targetWidth / 2, targetHeight * 0.45);
+            else if (filterType === 'noir') {
+                // Khung viền phim điện ảnh Cinematic (dải đen dày trên và dưới)
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(0, 0, targetWidth, frameWidth * 2.5);
+                ctx.fillRect(0, targetHeight - frameWidth * 2.5, targetWidth, frameWidth * 2.5);
             } 
-            else if(filterType === 'reindeer') {
-                // Sừng tuần lộc và Mũi đỏ
-                ctx.font = (targetWidth * 0.6) + "px Arial";
-                ctx.textAlign = "center";
-                ctx.textBaseline = "bottom";
-                ctx.fillText("🦌", targetWidth / 2, targetHeight * 0.35);
-                ctx.font = (targetWidth * 0.2) + "px Arial";
-                ctx.textBaseline = "middle";
-                ctx.fillText("🔴", targetWidth / 2, targetHeight * 0.6); // Mũi đỏ
+            else if (filterType === 'frost') {
+                // Khung viền băng tuyết nhạt
+                ctx.lineWidth = frameWidth;
+                ctx.strokeStyle = 'rgba(173, 216, 230, 0.6)'; // Màu xanh lơ nhạt
+                ctx.strokeRect(frameWidth/2, frameWidth/2, targetWidth - frameWidth, targetHeight - frameWidth);
+                
+                // Vẽ bông tuyết ở 4 góc
+                ctx.font = (targetWidth * 0.12) + "px Arial";
+                ctx.textAlign = "center"; ctx.textBaseline = "middle";
+                ctx.fillStyle = "#ffffff";
+                ctx.fillText("❄️", frameWidth*1.5, frameWidth*1.5);
+                ctx.fillText("❄️", targetWidth - frameWidth*1.5, frameWidth*1.5);
+                ctx.fillText("❄️", frameWidth*1.5, targetHeight - frameWidth*1.5);
+                ctx.fillText("❄️", targetWidth - frameWidth*1.5, targetHeight - frameWidth*1.5);
             }
-            else if(filterType === 'snow') {
-                // Lớp phủ xanh nhạt & Bông tuyết
-                ctx.fillStyle = "rgba(200, 240, 255, 0.3)";
-                ctx.fillRect(0, 0, targetWidth, targetHeight);
-                ctx.font = (targetWidth * 0.2) + "px Arial";
-                ctx.fillText("❄️", targetWidth * 0.2, targetHeight * 0.2);
-                ctx.fillText("⛄", targetWidth * 0.8, targetHeight * 0.8);
+            else if (filterType === 'noel') {
+                // Khung viền lồng Đỏ - Xanh lá
+                ctx.lineWidth = frameWidth;
+                ctx.strokeStyle = '#c0392b'; 
+                ctx.strokeRect(frameWidth/2, frameWidth/2, targetWidth - frameWidth, targetHeight - frameWidth);
+                ctx.lineWidth = frameWidth / 2;
+                ctx.strokeStyle = '#27ae60'; 
+                ctx.strokeRect(frameWidth*1.2, frameWidth*1.2, targetWidth - frameWidth*2.4, targetHeight - frameWidth*2.4);
             }
 
             const base64String = canvas.toDataURL('image/jpeg', 0.6);
