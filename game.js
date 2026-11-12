@@ -1,5 +1,6 @@
 // ============================================================================
-// DỌN PHÒNG HỌP 204 — ĐẠI CHIẾN TỔNG VỆ SINH (BẢN FIX HIỂN THỊ & ĐẾM MỤC TIÊU)
+// DỌN PHÒNG HỌP 204 — ĐẠI CHIẾN TỔNG VỆ SINH
+// Cập nhật: Giảm bớt rác, tăng thêm gián, thêm chú chó Poodle trắng "Bông", nút Tạm dừng
 // ============================================================================
 
 const $ = (s) => document.querySelector(s);
@@ -12,6 +13,53 @@ const binsEl = $("#bins");
 const overlay = $("#overlay");
 const card = $("#card");
 const sponge = $("#sponge");
+
+// ---------- SVG CHÚ CHÓ POODLE TRẮNG XÙ "BÔNG" ----------
+const WHITE_POODLE_SVG = `
+<svg viewBox="0 0 110 95" class="poodle-body" xmlns="http://www.w3.org/2000/svg">
+  <!-- Đuôi bông tròn -->
+  <circle cx="88" cy="42" r="11" fill="#ffffff" stroke="#d9e2ec" stroke-width="2.5"/>
+  <!-- Thân bông xù trắng -->
+  <ellipse cx="62" cy="58" rx="24" ry="18" fill="#ffffff" stroke="#d9e2ec" stroke-width="2.5"/>
+  <circle cx="48" cy="52" r="16" fill="#ffffff"/>
+  <circle cx="72" cy="54" r="15" fill="#ffffff"/>
+  <!-- 4 Chân trắng có pom-pom -->
+  <rect x="42" y="68" width="8" height="17" rx="4" fill="#f5f7fa" stroke="#cbd5e1" stroke-width="2"/>
+  <circle cx="46" cy="85" r="5.5" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <rect x="54" y="70" width="8" height="16" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <circle cx="58" cy="86" r="5.5" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <rect x="68" y="69" width="8" height="17" rx="4" fill="#f5f7fa" stroke="#cbd5e1" stroke-width="2"/>
+  <circle cx="72" cy="85" r="5.5" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <rect x="78" y="67" width="8" height="16" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <circle cx="82" cy="83" r="5.5" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <!-- Vòng cổ hồng xinh xắn + chuông vàng -->
+  <path d="M 33 47 Q 44 55 54 46" fill="none" stroke="#ff4081" stroke-width="4.5" stroke-linecap="round"/>
+  <circle cx="42" cy="52" r="4" fill="#ffd54f" stroke="#b28900" stroke-width="1.2"/>
+  <!-- Tai cụp bông xù -->
+  <ellipse cx="52" cy="36" rx="10" ry="16" transform="rotate(-12 52 36)" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2.2"/>
+  <ellipse cx="22" cy="38" rx="9" ry="15" transform="rotate(14 22 38)" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2.2"/>
+  <!-- Đầu tròn & chỏm lông xù đặc trưng Poodle -->
+  <circle cx="36" cy="33" r="17" fill="#ffffff" stroke="#d9e2ec" stroke-width="2.2"/>
+  <circle cx="29" cy="18" r="9.5" fill="#ffffff" stroke="#d9e2ec" stroke-width="2"/>
+  <circle cx="38" cy="16" r="10.5" fill="#ffffff" stroke="#d9e2ec" stroke-width="2"/>
+  <circle cx="46" cy="19" r="8.5" fill="#ffffff" stroke="#d9e2ec" stroke-width="2"/>
+  <circle cx="36" cy="23" r="11" fill="#ffffff"/>
+  <!-- Nơ đỏ trên đầu -->
+  <polygon points="40,14 48,10 46,18" fill="#ff1744"/>
+  <polygon points="40,14 33,10 35,18" fill="#ff1744"/>
+  <circle cx="40" cy="14" r="2.5" fill="#ffeb3b"/>
+  <!-- Mắt đen long lanh & má hồng -->
+  <circle cx="29" cy="31" r="3.2" fill="#1e293b"/>
+  <circle cx="28" cy="29.8" r="1.1" fill="#ffffff"/>
+  <circle cx="41" cy="31" r="3.2" fill="#1e293b"/>
+  <circle cx="40" cy="29.8" r="1.1" fill="#ffffff"/>
+  <ellipse cx="24" cy="36" rx="3.5" ry="2" fill="#ff80ab" opacity="0.65"/>
+  <ellipse cx="45" cy="36" rx="3.5" ry="2" fill="#ff80ab" opacity="0.65"/>
+  <!-- Mũi & Lưỡi hồng -->
+  <ellipse cx="34" cy="36" rx="3.2" ry="2.3" fill="#1e293b"/>
+  <path d="M 31 40 Q 34 45 37 40" fill="#ff80ab" stroke="#ad1457" stroke-width="1"/>
+</svg>
+`;
 
 // ---------- 5 KHU VỰC PHÂN LOẠI ĐỒ TRONG PHÒNG HỌP 204 ----------
 const CATEGORIES = {
@@ -178,7 +226,6 @@ const ROOM_FIX_SPOTS = [
 ];
 
 // ---------- VỊ TRÍ BẢNG TRẮNG (TRÁI & PHẢI) ĐỂ LAU VẾT BÚT LÔNG ----------
-// Căn chỉnh lùi vào trong lòng bảng trắng để không bị cắt ở mép phải màn hình
 const WHITEBOARD_SPOTS = [
   { x: 22.3, y: 34.5, text: "ABC?!" },
   { x: 22.3, y: 43.5, text: "123~" },
@@ -198,54 +245,69 @@ const SPAWN_ZONES = [
   { xMin: 62, xMax: 78, yMin: 55, yMax: 64 },
 ];
 
-// ---------- 4 CA TRỰC VỚI ĐỘ KHÓ TĂNG DẦN ----------
+// Vùng sàn gạch vàng cho Poodle trắng chạy lon ton
+const FLOOR_ZONES = [
+  { xMin: 58, xMax: 86, yMin: 65, yMax: 90 },
+  { xMin: 15, xMax: 34, yMin: 75, yMax: 90 },
+  { xMin: 62, xMax: 78, yMin: 56, yMax: 66 },
+];
+
+// ---------- 4 CA TRỰC: GIẢM BỚT RÁC, TĂNG THÊM GIÁN NGAY TỪ CA 1 ----------
 const LEVELS = [
   {
     name: "Ca 1: Sau Giờ Học Kỹ Năng",
-    desc: "Lớp học vừa tan, đồ đạc và giấy tờ còn vương trên bàn họp và sàn gạch vàng.",
-    items: 12,
-    floorStains: 4,
+    desc: "Lớp học vừa tan, đồ đạc gọn hơn nhưng gián đã bắt đầu bò ra sàn. Hãy cưng nựng bé Poodle trắng để bé phụ bắt gián nhé!",
+    items: 7,          // Giảm từ 12 xuống 7
+    initialPests: 2,   // Có sẵn 2 con gián ngay đầu màn
+    maxPests: 4,
+    pestInterval: 6500,
+    floorStains: 3,
     boardStains: 2,
-    fixes: 5,
+    fixes: 4,
     time: 75,
     cats: ["docs", "tech", "pantry", "trash"],
-    pestInterval: 0,
     events: false,
   },
   {
     name: "Ca 2: Họp Giao Ban Khẩn",
-    desc: "Nhiều thiết bị IT, cốc cà phê đổ trên sàn, khẩu hiệu tường bị lệch và gián bắt đầu xuất hiện!",
-    items: 18,
-    floorStains: 6,
-    boardStains: 3,
-    fixes: 8,
+    desc: "Gián xuất hiện đông hơn! Cốc cà phê đổ trên sàn, khẩu hiệu tường bị lệch!",
+    items: 10,         // Giảm từ 18 xuống 10
+    initialPests: 3,
+    maxPests: 5,
+    pestInterval: 5000,
+    floorStains: 4,
+    boardStains: 2,
+    fixes: 6,
     time: 85,
     cats: ["docs", "tech", "pantry", "music", "trash"],
-    pestInterval: 11000,
     events: true,
   },
   {
     name: "Ca 3: Hội Thảo Toàn Trung Tâm",
-    desc: "Phòng 204 quá tải! Điều hòa rỉ nước, máy in kẹt giấy, gián bò ngang dọc tìm rác!",
-    items: 24,
-    floorStains: 8,
-    boardStains: 4,
-    fixes: 11,
+    desc: "Đàn gián tấn công Phòng 204! Hãy phối hợp cùng bé Poodle Bông để diệt gián trước khi chúng bày bẩn!",
+    items: 13,         // Giảm từ 24 xuống 13
+    initialPests: 4,
+    maxPests: 6,
+    pestInterval: 4000,
+    floorStains: 5,
+    boardStains: 3,
+    fixes: 8,
     time: 95,
     cats: ["docs", "tech", "pantry", "music", "trash"],
-    pestInterval: 8500,
     events: true,
   },
   {
     name: "Ca 4 (Ác Mộng): Đón Đoàn Thanh Tra",
-    desc: "Ban Giám Đốc sắp bước vào cửa Phòng 204! Mọi thứ phải hoàn hảo 100% trong thời gian cực gắt!",
-    items: 30,
-    floorStains: 10,
+    desc: "Ban Giám Đốc sắp bước vào cửa Phòng 204! Gián bò khắp nơi, mọi thứ phải sạch bóng 100%!",
+    items: 16,         // Giảm từ 30 xuống 16
+    initialPests: 5,
+    maxPests: 7,
+    pestInterval: 3200,
+    floorStains: 6,
     boardStains: 4,
-    fixes: 14,
+    fixes: 11,
     time: 105,
     cats: ["docs", "tech", "pantry", "music", "trash"],
-    pestInterval: 6500,
     events: true,
   },
 ];
@@ -262,16 +324,20 @@ const state = {
   totalTasks: 0,
   doneTasks: 0,
   playing: false,
+  paused: false,
   muted: false,
   timer: null,
   pestTimer: null,
   eventTimer: null,
+  poodleTimer: null,
+  poodleBoostUntil: 0,
 };
 
 let drag = null;
 let scrubbing = false;
 let lastPt = null;
 let lastSqueak = 0;
+let poodleEl = null;
 
 // ---------- HỆ THỐNG ÂM THANH (WEB AUDIO API) ----------
 let actx = null;
@@ -311,6 +377,10 @@ const sfx = {
     playTone(320, 0.06, "square", 0.1);
     setTimeout(() => playTone(640, 0.09, "sine", 0.1), 50);
   },
+  bark: () => {
+    playTone(720, 0.07, "triangle", 0.12);
+    setTimeout(() => playTone(980, 0.09, "triangle", 0.13), 85);
+  },
   win: () => [523, 659, 784, 1047, 1318].forEach((f, i) => setTimeout(() => playTone(f, 0.18, "triangle", 0.12), i * 110)),
   lose: () => [392, 349, 311, 261].forEach((f, i) => setTimeout(() => playTone(f, 0.25, "sawtooth", 0.11), i * 180)),
 };
@@ -327,7 +397,6 @@ function shuffle(arr) {
   return a;
 }
 
-// Tránh đặt đồ/vết bẩn đè lên nhau hoặc đè vào các hotspot hiện có
 function randomRoomPoints(count, existingPts = []) {
   const pts = [...existingPts];
   const result = [];
@@ -384,7 +453,7 @@ function updateHUD() {
   $("#score").textContent = state.score;
   $("#combo").textContent = `x${state.combo}`;
   $("#lives").textContent = "❤️".repeat(state.lives) + "🖤".repeat(Math.max(0, 3 - state.lives));
-  $("#time-box").classList.toggle("warn", state.time <= 12 && state.playing);
+  $("#time-box").classList.toggle("warn", state.time <= 12 && state.playing && !state.paused);
 
   const allItems = [...itemsLayer.querySelectorAll(".item")];
   const allStains = [...stainsLayer.querySelectorAll(".stain")];
@@ -397,8 +466,6 @@ function updateHUD() {
   const pestLeft = allPests.length;
 
   const remaining = sortLeft + wipeLeft + fixLeft + pestLeft;
-  // Đồng bộ chính xác tổng số việc = số việc đã làm + số việc thực tế đang còn trong phòng
-  // (Tránh hoàn toàn lỗi hiển thị thiếu vật phẩm như 31/32 mà không còn gì để dọn)
   state.totalTasks = state.doneTasks + remaining;
   const pct = state.totalTasks ? Math.round((state.doneTasks / state.totalTasks) * 100) : 100;
 
@@ -408,17 +475,13 @@ function updateHUD() {
   $("#cnt-sort").textContent = sortLeft;
   $("#cnt-wipe").textContent = wipeLeft;
   $("#cnt-fix").textContent = fixLeft;
+  $("#cnt-pest").textContent = pestLeft;
+
   $("#task-sort").classList.toggle("done", sortLeft === 0);
   $("#task-wipe").classList.toggle("done", wipeLeft === 0);
   $("#task-fix").classList.toggle("done", fixLeft === 0);
-
-  const pestChip = $("#task-pest");
-  if (pestLeft > 0) {
-    pestChip.style.display = "inline-block";
-    $("#cnt-pest").textContent = pestLeft;
-  } else {
-    pestChip.style.display = "none";
-  }
+  $("#task-pest").classList.toggle("done", pestLeft === 0);
+  $("#task-pest").classList.toggle("warn-chip", pestLeft > 0);
 
   binsEl.querySelectorAll(".bin").forEach((b) => {
     const c = itemsLayer.querySelectorAll(`.item[data-cat="${b.dataset.cat}"]`).length;
@@ -426,13 +489,12 @@ function updateHUD() {
   });
 
   // Tự động bật viền phát sáng Radar khi chỉ còn <= 3 mục tiêu cuối cùng trong phòng
-  // để người chơi không bao giờ bị tìm mãi không thấy món cuối!
   const allTargets = [...allItems, ...allStains, ...allFixes, ...allPests];
   allTargets.forEach((el) => {
     el.classList.toggle("last-target-glow", remaining > 0 && remaining <= 3);
   });
 
-  if (state.playing && remaining === 0) {
+  if (state.playing && !state.paused && remaining === 0) {
     winLevel();
   }
 }
@@ -497,7 +559,7 @@ function spawnHotspotsFromList(list) {
     el.innerHTML = spot.html;
 
     el.addEventListener("pointerdown", (e) => {
-      if (!state.playing || !el.isConnected) return;
+      if (!state.playing || state.paused || !el.isConnected) return;
       e.preventDefault();
       e.stopPropagation();
       state.combo++;
@@ -516,7 +578,7 @@ function spawnHotspotsFromList(list) {
   });
 }
 
-// ---------- TẠO VẾT BẨN SÀN GẠCH & BẢNG TRẮNG (CÓ THANH MÁU RÕ RÀNG) ----------
+// ---------- TẠO VẾT BẨN SÀN GẠCH & BẢNG TRẮNG ----------
 function createStainElement(typeCls, xPct, yPct, hp, innerHtml) {
   const d = document.createElement("div");
   d.className = `stain ${typeCls}`;
@@ -529,9 +591,8 @@ function createStainElement(typeCls, xPct, yPct, hp, innerHtml) {
     <div class="stain-hp-wrap"><div class="stain-hp-bar"></div></div>
   `;
 
-  // Hỗ trợ cả nhấn trực tiếp vào vết bẩn để bắt đầu chà ngay
   d.addEventListener("pointerdown", (e) => {
-    if (!state.playing || drag) return;
+    if (!state.playing || state.paused || drag) return;
     e.preventDefault();
     startScrubbing(e);
     damageStain(d, 22, e.clientX, e.clientY);
@@ -578,16 +639,129 @@ function spawnItems(count, cats, occupiedPts = []) {
   }
 }
 
-// ---------- GIÁN BÒ TRONG PHÒNG ----------
-function spawnPest() {
-  if (!state.playing) return;
-  // Không đẻ thêm gián hoặc sự cố mới khi người chơi đã dọn gần xong (còn <= 4 việc)
-  const remaining =
-    itemsLayer.querySelectorAll(".item").length +
-    stainsLayer.querySelectorAll(".stain").length +
-    hotspotsLayer.querySelectorAll(".hotspot").length;
-  if (remaining <= 4) return;
-  if (itemsLayer.querySelectorAll(".pest").length >= 2) return;
+// ---------- CHÚ CHÓ POODLE TRẮNG "BÔNG" (TRỢ THỦ BẮT GIÁN ĐÁNG YÊU) ----------
+function spawnWhitePoodle() {
+  poodleEl = document.createElement("div");
+  poodleEl.className = "poodle";
+  poodleEl.style.left = "70%";
+  poodleEl.style.top = "78%";
+  poodleEl.innerHTML = `
+    <div class="poodle-tag">🐩 Bông (Nhấn để cưng nựng!)</div>
+    ${WHITE_POODLE_SVG}
+  `;
+
+  // Nhấp vào bé Poodle để cưng nựng -> Bé hăng hái đi săn gián và cộng điểm tinh thần
+  poodleEl.addEventListener("pointerdown", (e) => {
+    if (!state.playing || state.paused) return;
+    e.preventDefault();
+    e.stopPropagation();
+    sfx.bark();
+    state.poodleBoostUntil = performance.now() + 9000;
+    state.score += 10;
+    floatText(e.clientX, e.clientY, "🐩 Gâu gâu! +10 Bông đi bắt gián ngay!", "#ff80ab");
+    sparkleAtPct(parseFloat(poodleEl.style.left), parseFloat(poodleEl.style.top), 5);
+    updatePoodleBehavior();
+    updateHUD();
+  });
+
+  itemsLayer.appendChild(poodleEl);
+}
+
+function updatePoodleBehavior() {
+  if (!state.playing || state.paused || !poodleEl || !poodleEl.isConnected) return;
+
+  const pests = [...itemsLayer.querySelectorAll(".pest")];
+  const boosted = performance.now() < state.poodleBoostUntil;
+  const tag = poodleEl.querySelector(".poodle-tag");
+  const curX = parseFloat(poodleEl.style.left) || 70;
+  const curY = parseFloat(poodleEl.style.top) || 78;
+
+  if (pests.length > 0) {
+    // Tìm chú gián gần bé Poodle nhất để đuổi bắt
+    let nearest = pests[0];
+    let bestDist = Infinity;
+    pests.forEach((p) => {
+      const px = parseFloat(p.style.left);
+      const py = parseFloat(p.style.top);
+      const d = Math.hypot(px - curX, py - curY);
+      if (d < bestDist) {
+        bestDist = d;
+        nearest = p;
+      }
+    });
+
+    const tx = parseFloat(nearest.style.left);
+    const ty = parseFloat(nearest.style.top);
+    poodleEl.classList.add("hunting");
+    poodleEl.classList.toggle("flip", tx > curX);
+    if (tag) tag.textContent = boosted ? "🐩⚡ Bông đang săn gián!" : "🐩 Bông đang rượt gián!";
+    $("#poodle-state").textContent = "Đang bắt gián 🪳";
+
+    poodleEl.style.left = tx + "%";
+    poodleEl.style.top = ty + "%";
+
+    // Sau khi chạy tới vị trí gián (hoặc chạy ngay nếu được cưng nựng) -> Bông vồ gọn con gián!
+    setTimeout(() => {
+      if (!state.playing || state.paused || !nearest.isConnected) return;
+      killPest(nearest, true);
+    }, boosted ? 360 : 580);
+  } else {
+    // Không có gián -> Bông đi dạo thong thả trên sàn gạch vàng
+    poodleEl.classList.remove("hunting");
+    const z = pick(FLOOR_ZONES);
+    const nx = z.xMin + Math.random() * (z.xMax - z.xMin);
+    const ny = z.yMin + Math.random() * (z.yMax - z.yMin);
+    poodleEl.classList.toggle("flip", nx > curX);
+    poodleEl.style.left = nx + "%";
+    poodleEl.style.top = ny + "%";
+    if (tag) tag.textContent = boosted ? "🐩💕 Bông rất vui!" : "🐩 Bông (Nhấn để cưng nựng!)";
+    $("#poodle-state").textContent = boosted ? "Đang trực chiến ⚡" : "Đang dạo 🐾";
+  }
+}
+
+// ---------- GIÁN BÒ TRONG PHÒNG (ĐÔNG HƠN & NHANH HƠN) ----------
+function killPest(p, byPoodle = false, clientX = null, clientY = null) {
+  if (!p || !p.isConnected) return;
+  if (p._moveTimer) clearInterval(p._moveTimer);
+  if (p._dirtyTimer) clearTimeout(p._dirtyTimer);
+
+  const xPct = parseFloat(p.style.left);
+  const yPct = parseFloat(p.style.top);
+  const r = p.getBoundingClientRect();
+  const fxX = clientX || r.left + r.width / 2;
+  const fxY = clientY || r.top + r.height / 2;
+
+  p.remove();
+  state.combo++;
+  const pts = (byPoodle ? 30 : 25) + state.combo * 2;
+  state.score += pts;
+  state.doneTasks++;
+
+  if (byPoodle) {
+    sfx.bark();
+    floatText(fxX, fxY, `🐩💨 +${pts} Bông vồ gọn gián!`, "#ff80ab");
+  } else {
+    sfx.squish();
+    floatText(fxX, fxY, `👟 +${pts} Diệt gọn gián!`, "#00e676");
+  }
+  bumpCombo();
+  sparkleAtPct(xPct, yPct, 3);
+  updateHUD();
+}
+
+function spawnPest(force = false) {
+  if (!state.playing || state.paused) return;
+  const L = LEVELS[state.level];
+
+  if (!force) {
+    // Ngừng đẻ thêm gián mới khi chỉ còn <= 2 công việc khác để tránh kéo dài cuối màn
+    const otherRemaining =
+      itemsLayer.querySelectorAll(".item").length +
+      stainsLayer.querySelectorAll(".stain").length +
+      hotspotsLayer.querySelectorAll(".hotspot").length;
+    if (otherRemaining <= 2) return;
+    if (itemsLayer.querySelectorAll(".pest").length >= L.maxPests) return;
+  }
 
   const p = document.createElement("div");
   p.className = "pest";
@@ -596,41 +770,46 @@ function spawnPest() {
   p.style.left = z.xMin + Math.random() * (z.xMax - z.xMin) + "%";
   p.style.top = z.yMin + Math.random() * (z.yMax - z.yMin) + "%";
 
-  const moveInterval = setInterval(() => {
+  p._moveTimer = setInterval(() => {
     if (!p.isConnected || !state.playing) {
-      clearInterval(moveInterval);
+      clearInterval(p._moveTimer);
       return;
     }
+    if (state.paused) return;
     const nz = pick(SPAWN_ZONES);
     p.style.left = nz.xMin + Math.random() * (nz.xMax - nz.xMin) + "%";
     p.style.top = nz.yMin + Math.random() * (nz.yMax - nz.yMin) + "%";
-  }, 1150);
+  }, 1050);
 
-  // Nếu sau 7 giây không đập gián, gián sẽ tha thêm vết bẩn ra sàn
-  const dirtyTimeout = setTimeout(() => {
-    if (!p.isConnected || !state.playing) return;
-    const xPct = parseFloat(p.style.left);
-    const yPct = parseFloat(p.style.top);
-    createStainElement("stain-floor", xPct, yPct, 90, `<span class="stain-icon">💦</span>`);
-    const r = p.getBoundingClientRect();
-    floatText(r.left, r.top, "🪳 Gián vừa bày thêm bẩn!", "#ff5252");
-    sfx.bad();
-    updateHUD();
-  }, 7000);
+  // Đếm thời gian gián bày bẩn (tạm dừng khi game pause)
+  p.dataset.dirtyCountdown = 8;
+  p._dirtyTimer = setInterval(() => {
+    if (!p.isConnected || !state.playing) {
+      clearInterval(p._dirtyTimer);
+      return;
+    }
+    if (state.paused) return;
+    let c = +p.dataset.dirtyCountdown - 1;
+    p.dataset.dirtyCountdown = c;
+    if (c <= 0) {
+      clearInterval(p._dirtyTimer);
+      if (stainsLayer.querySelectorAll(".stain").length < 10) {
+        const xPct = parseFloat(p.style.left);
+        const yPct = parseFloat(p.style.top);
+        createStainElement("stain-floor", xPct, yPct, 90, `<span class="stain-icon">💦</span>`);
+        const r = p.getBoundingClientRect();
+        floatText(r.left, r.top, "🪳 Gián vừa tha bẩn ra sàn!", "#ff5252");
+        sfx.bad();
+        updateHUD();
+      }
+    }
+  }, 1000);
 
   p.addEventListener("pointerdown", (e) => {
-    if (!state.playing || !p.isConnected) return;
+    if (!state.playing || state.paused || !p.isConnected) return;
     e.preventDefault();
     e.stopPropagation();
-    clearInterval(moveInterval);
-    clearTimeout(dirtyTimeout);
-    state.score += 25;
-    state.doneTasks++;
-    sfx.squish();
-    floatText(e.clientX, e.clientY, "👟 +25 Diệt gọn gián!", "#00e676");
-    sparkleAtPct(parseFloat(p.style.left), parseFloat(p.style.top), 3);
-    p.remove();
-    updateHUD();
+    killPest(p, false, e.clientX, e.clientY);
   });
 
   itemsLayer.appendChild(p);
@@ -639,16 +818,15 @@ function spawnPest() {
 
 // ---------- SỰ KIỆN BẤT NGỜ TRONG CA TRỰC ----------
 function triggerRandomEvent() {
-  if (!state.playing) return;
+  if (!state.playing || state.paused) return;
   const remaining =
     itemsLayer.querySelectorAll(".item").length +
     stainsLayer.querySelectorAll(".stain").length +
     hotspotsLayer.querySelectorAll(".hotspot").length;
-  // Không tạo sự cố mới khi người chơi đang dọn những món cuối cùng
-  if (remaining <= 5 || state.time <= 15) return;
+  if (remaining <= 4 || state.time <= 15) return;
 
   const roll = Math.random();
-  if (roll < 0.5 && hotspotsLayer.querySelectorAll(".hotspot").length < 6) {
+  if (roll < 0.55 && hotspotsLayer.querySelectorAll(".hotspot").length < 6) {
     const activeIds = new Set([...hotspotsLayer.querySelectorAll(".hotspot")].map((e) => e.dataset.id));
     const available = ROOM_FIX_SPOTS.filter((s) => !activeIds.has(s.id));
     if (available.length > 0) {
@@ -658,11 +836,55 @@ function triggerRandomEvent() {
       updateHUD();
     }
   } else {
-    const L = LEVELS[state.level];
-    spawnItems(2, L.cats);
-    floatText(window.innerWidth / 2, 110, "⚡ Ai đó vừa để quên thêm 2 món đồ!", "#ffb300");
+    // Sự kiện: 2 con gián mới bò ra từ gầm bàn!
+    spawnPest(true);
+    spawnPest(true);
+    floatText(window.innerWidth / 2, 110, "🪳 Đàn gián vừa bò ra từ gầm bàn họp!", "#ff5252");
     updateHUD();
   }
+}
+
+// ---------- TẠM DỪNG / TIẾP TỤC TRÒ CHƠI ----------
+function togglePause() {
+  if (!state.playing) return;
+  if (state.paused) {
+    resumeGame();
+  } else {
+    pauseGame();
+  }
+}
+
+function pauseGame() {
+  if (!state.playing || state.paused) return;
+  state.paused = true;
+  if (drag) {
+    returnDraggedItem();
+    drag = null;
+  }
+  scrubbing = false;
+  sponge.style.display = "none";
+  $("#btn-pause").innerHTML = `▶️ <small>Tiếp tục</small>`;
+
+  const L = LEVELS[state.level];
+  showOverlay(`
+    <h1>⏸️ ĐANG TẠM DỪNG</h1>
+    <p><b>${L.name}</b></p>
+    <p>Thời gian còn lại: <b>${state.time} giây</b> | Điểm hiện tại: <b>${state.score}</b></p>
+    <p>Tiến độ hoàn thành: <b>${state.doneTasks}/${state.totalTasks}</b> công việc</p>
+    <div class="btn-row">
+      <button class="btn" onclick="resumeGame()">▶️ Tiếp tục dọn phòng</button>
+      <button class="btn secondary" onclick="retryLevel()">🔄 Chơi lại Ca này</button>
+      <button class="btn secondary" onclick="newGame()">🏠 Về Ca 1</button>
+    </div>
+  `);
+}
+
+function resumeGame() {
+  if (!state.playing || !state.paused) return;
+  state.paused = false;
+  $("#btn-pause").innerHTML = `⏸️ <small>Tạm dừng</small>`;
+  hideOverlay();
+  updateHUD();
 }
 
 // ---------- BẮT ĐẦU MÀN CHƠI ----------
@@ -674,7 +896,10 @@ function startLevel(idx) {
   state.lives = 3;
   state.time = L.time;
   state.doneTasks = 0;
+  state.paused = false;
+  state.poodleBoostUntil = 0;
   state.levelStartScore = state.score;
+  $("#btn-pause").innerHTML = `⏸️ <small>Tạm dừng</small>`;
 
   hotspotsLayer.innerHTML = "";
   stainsLayer.innerHTML = "";
@@ -690,13 +915,19 @@ function startLevel(idx) {
   spawnHotspotsFromList(chosenHotspots);
   spawnStains(L.floorStains, L.boardStains, occupiedPts);
   spawnItems(L.items, L.cats, occupiedPts);
+  spawnWhitePoodle();
 
   hideOverlay();
   state.playing = true;
+
+  // Tạo sẵn số gián đầu màn theo cấu hình
+  for (let i = 0; i < L.initialPests; i++) {
+    spawnPest(true);
+  }
   updateHUD();
 
   state.timer = setInterval(() => {
-    if (!state.playing) return;
+    if (!state.playing || state.paused) return;
     state.time--;
     if (state.time <= 10 && state.time > 0) playTone(880, 0.05, "square", 0.06);
     updateHUD();
@@ -706,18 +937,31 @@ function startLevel(idx) {
   }, 1000);
 
   if (L.pestInterval > 0) {
-    state.pestTimer = setInterval(spawnPest, L.pestInterval);
+    state.pestTimer = setInterval(() => {
+      if (!state.paused) spawnPest(false);
+    }, L.pestInterval);
   }
   if (L.events) {
-    state.eventTimer = setInterval(triggerRandomEvent, 17000);
+    state.eventTimer = setInterval(() => {
+      if (!state.paused) triggerRandomEvent();
+    }, 17000);
   }
+
+  // Bé Poodle trắng hoạt động định kỳ mỗi 2.1 giây
+  state.poodleTimer = setInterval(updatePoodleBehavior, 2100);
 }
 
 function stopTimers() {
   state.playing = false;
+  state.paused = false;
   clearInterval(state.timer);
   clearInterval(state.pestTimer);
   clearInterval(state.eventTimer);
+  clearInterval(state.poodleTimer);
+  itemsLayer.querySelectorAll(".pest").forEach((p) => {
+    if (p._moveTimer) clearInterval(p._moveTimer);
+    if (p._dirtyTimer) clearInterval(p._dirtyTimer);
+  });
   if (drag) {
     returnDraggedItem();
     drag = null;
@@ -728,7 +972,7 @@ function stopTimers() {
 
 // ---------- KÉO THẢ ĐỒ VẬT ----------
 function onItemDown(e) {
-  if (!state.playing || drag) return;
+  if (!state.playing || state.paused || drag) return;
   e.preventDefault();
   e.stopPropagation();
   const el = e.currentTarget;
@@ -768,7 +1012,7 @@ function finishDrag(e) {
   if (!drag) return;
   const { el } = drag;
   binsEl.querySelectorAll(".bin").forEach((b) => b.classList.remove("hover"));
-  const bin = state.playing ? binAtPoint(e.clientX, e.clientY) : null;
+  const bin = state.playing && !state.paused ? binAtPoint(e.clientX, e.clientY) : null;
 
   if (bin && bin.dataset.cat === el.dataset.cat) {
     state.combo++;
@@ -813,11 +1057,12 @@ function startScrubbing(e) {
 }
 
 room.addEventListener("pointerdown", (e) => {
-  if (!state.playing || drag) return;
+  if (!state.playing || state.paused || drag) return;
   if (
     e.target.closest(".item") ||
     e.target.closest(".hotspot") ||
-    e.target.closest(".pest")
+    e.target.closest(".pest") ||
+    e.target.closest(".poodle")
   ) {
     return;
   }
@@ -874,7 +1119,7 @@ function scrubMove(x, y, dist) {
   const stepDamage = Math.max(2, dist * 0.65);
   stainsLayer.querySelectorAll(".stain").forEach((st) => {
     const r = st.getBoundingClientRect();
-    const pad = 16; // Mở rộng vùng nhận diện khăn lau để chà mượt hơn
+    const pad = 16;
     if (x < r.left - pad || x > r.right + pad || y < r.top - pad || y > r.bottom + pad) return;
     damageStain(st, stepDamage, x, y);
   });
@@ -891,7 +1136,7 @@ window.addEventListener("pointermove", (e) => {
     sponge.style.top = e.clientY + "px";
     const dist = Math.hypot(e.clientX - lastPt.x, e.clientY - lastPt.y);
     lastPt = { x: e.clientX, y: e.clientY };
-    if (state.playing) scrubMove(e.clientX, e.clientY, dist);
+    if (state.playing && !state.paused) scrubMove(e.clientX, e.clientY, dist);
   }
 });
 
@@ -905,9 +1150,17 @@ function endPointer(e) {
 window.addEventListener("pointerup", endPointer);
 window.addEventListener("pointercancel", endPointer);
 
-// ---------- NÚT GỢI Ý & CLICK VÀO CHIP NHIỆM VỤ ĐỂ TÌM ĐỒ ----------
+// ---------- NÚT TẠM DỪNG, GỢI Ý & PHÍM TẮT ----------
+$("#btn-pause").addEventListener("click", togglePause);
+
+window.addEventListener("keydown", (e) => {
+  if (e.key === "p" || e.key === "P" || e.key === "Escape") {
+    if (state.playing) togglePause();
+  }
+});
+
 function highlightElements(elements, deductScore = false) {
-  if (!state.playing || elements.length === 0) return;
+  if (!state.playing || state.paused || elements.length === 0) return;
   if (deductScore) {
     state.score = Math.max(0, state.score - 15);
     updateHUD();
@@ -928,11 +1181,13 @@ $("#btn-hint").addEventListener("click", () => {
   highlightElements(allTargets, true);
 });
 
-// Bấm vào từng chip nhiệm vụ trên thanh Task Bar để làm sáng đúng nhóm đó (miễn phí!)
 $("#task-sort").addEventListener("click", () => highlightElements([...itemsLayer.querySelectorAll(".item")], false));
 $("#task-wipe").addEventListener("click", () => highlightElements([...stainsLayer.querySelectorAll(".stain")], false));
 $("#task-fix").addEventListener("click", () => highlightElements([...hotspotsLayer.querySelectorAll(".hotspot")], false));
 $("#task-pest").addEventListener("click", () => highlightElements([...itemsLayer.querySelectorAll(".pest")], false));
+$("#task-poodle").addEventListener("click", () => {
+  if (poodleEl) highlightElements([poodleEl], false);
+});
 
 $("#btn-mute").addEventListener("click", () => {
   state.muted = !state.muted;
@@ -974,7 +1229,7 @@ function winLevel() {
     showOverlay(`
       <h1>🏆 HOÀN TẤT ĐẠI CHIẾN PHÒNG 204!</h1>
       <div class="stars">${"⭐".repeat(stars)}${"☆".repeat(3 - stars)}</div>
-      <p>Phòng 204 đã đạt chuẩn <b>"HỌC thêm LÀM giỏi – KỸ NĂNG TỐT – VỮNG CHUYÊN MÔN"</b>!</p>
+      <p>Bạn và bé Poodle trắng <b>Bông 🐩</b> đã giúp Phòng 204 đạt chuẩn xuất sắc!</p>
       <p>Thưởng thời gian: <b>+${timeBonus}</b> | Thưởng uy tín: <b>+${lifeBonus}</b></p>
       <p>Chuỗi Combo cao nhất: <b>x${state.maxCombo}</b></p>
       <h2 style="margin-top:10px">Tổng điểm: ${state.score} (Kỷ lục: ${best})</h2>
@@ -988,7 +1243,7 @@ function winLevel() {
       <div class="stars">${"⭐".repeat(stars)}${"☆".repeat(3 - stars)}</div>
       <p>Thưởng thời gian: <b>+${timeBonus}</b> | Thưởng uy tín: <b>+${lifeBonus}</b></p>
       <p>Điểm hiện tại: <b>${state.score}</b></p>
-      <p style="color:#ffd54f">Chuẩn bị sang <b>${LEVELS[state.level + 1].name}</b> — độ khó cao hơn!</p>
+      <p style="color:#ffd54f">Chuẩn bị sang <b>${LEVELS[state.level + 1].name}</b> — nhiều gián hơn!</p>
       <div class="btn-row">
         <button class="btn" onclick="startLevel(${state.level + 1})">➡️ Sang Ca Tiếp Theo</button>
       </div>
@@ -1025,23 +1280,23 @@ function showIntro() {
   buildBins(LEVELS[0].cats);
   showOverlay(`
     <h1>🧹 ĐẠI CHIẾN DỌN PHÒNG 204</h1>
-    <p>Dựa trên sơ đồ thực tế <b>Phòng họp & đào tạo 204</b>. Hãy tổng vệ sinh toàn bộ phòng trước khi Ban Giám Đốc vào kiểm tra!</p>
+    <p>Dựa trên sơ đồ thực tế <b>Phòng họp & đào tạo 204</b>, nay có thêm trợ thủ <b>Chó Poodle trắng Bông 🐩</b>!</p>
     <div class="guide-grid">
       <div class="guide-item">
-        <b>1. 📦 Phân loại 5 nhóm đồ</b>
-        Kéo thả hồ sơ, thiết bị IT, ly tách, nhạc cụ, rác vào đúng khay bên dưới. Sai khay mất 1 ❤️!
+        <b>1. 🪳 Nhiều gián hơn & Ít rác hơn</b>
+        Đồ đạc đã gọn bớt nhưng đàn gián xuất hiện ngay từ Ca 1. Đập gián trước khi chúng bày bẩn ra sàn!
       </div>
       <div class="guide-item">
-        <b>2. 🧽 Lau sàn gạch & 2 bảng trắng</b>
-        Giữ chuột chà qua lại (hoặc nhấp liên tục) trên vết bẩn sàn gạch vàng và nét vẽ bậy trên 2 bảng trắng.
+        <b>2. 🐩 Chó Poodle trắng "Bông"</b>
+        Bé Poodle trắng chạy lon ton trong phòng sẽ tự động đuổi bắt gián giúp bạn! Nhấp vào Bông để cưng nựng (+10đ & tăng tốc bắt gián).
       </div>
       <div class="guide-item">
-        <b>3. 🔧 Chỉnh sửa thiết bị Phòng 204</b>
-        Nhấp vào 3 bảng khẩu hiệu bị lệch, tắt 2 TV, chỉnh 3 điều hòa, dựng bình hoa, gỡ kẹt máy in, dựng đàn Guitar Yamaha...
+        <b>3. 🧽 Lau bảng & 🔧 Chỉnh nội thất</b>
+        Chà sạch vết bẩn sàn/bảng trắng, chỉnh 3 bảng khẩu hiệu, tắt TV, sửa điều hòa, dựng bình hoa...
       </div>
       <div class="guide-item">
-        <b>4. 💡 Mẹo tìm đồ cuối màn</b>
-        Khi còn 3 mục tiêu cuối, chúng sẽ <b>tự động phát sáng</b>! Bạn cũng có thể bấm vào các ô nhiệm vụ phía trên để soi vị trí.
+        <b>4. ⏸️ Tạm dừng bất cứ lúc nào</b>
+        Nhấn nút <b>⏸️ Tạm dừng</b> trên góc phải (hoặc phím <b>P / Esc</b>) để nghỉ giải lao giữa ca trực.
       </div>
     </div>
     <p>🏆 Kỷ lục hiện tại: <b>${getBest()} điểm</b></p>
@@ -1054,5 +1309,6 @@ function showIntro() {
 window.startLevel = startLevel;
 window.retryLevel = retryLevel;
 window.newGame = newGame;
+window.resumeGame = resumeGame;
 
 showIntro();

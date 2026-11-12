@@ -44,6 +44,7 @@
       </div>
 
       <div class="hud-actions">
+        <button class="icon-btn pause-btn" id="btn-pause" title="Tạm dừng trò chơi (Phím P)">⏸️ <small>Tạm dừng</small></button>
         <button class="icon-btn" id="btn-hint" title="Gợi ý vị trí lỗi ẩn (-15 điểm)">💡 <small>Gợi ý</small></button>
         <button class="icon-btn" id="btn-mute" title="Bật/Tắt âm thanh">🔊</button>
         <button class="icon-btn" id="btn-restart" title="Chơi lại màn này">🔄</button>
@@ -55,7 +56,8 @@
       <div class="task-chip" id="task-sort">📦 Phân loại đồ: <b id="cnt-sort">0</b></div>
       <div class="task-chip" id="task-wipe">🧽 Lau sàn & bảng: <b id="cnt-wipe">0</b></div>
       <div class="task-chip" id="task-fix">🔧 Chỉnh nội thất: <b id="cnt-fix">0</b></div>
-      <div class="task-chip warn-chip" id="task-pest" style="display:none">🪳 Diệt gián: <b id="cnt-pest">0</b></div>
+      <div class="task-chip warn-chip" id="task-pest">🪳 Diệt gián: <b id="cnt-pest">0</b></div>
+      <div class="task-chip poodle-chip" id="task-poodle" title="Nhấp vào bé Poodle trắng trong phòng để cưng nựng, bé sẽ đi bắt gián giúp bạn!">🐩 Poodle Bông: <b id="poodle-state">Đang dạo</b></div>
     </section>
 
     <!-- MAIN ROOM 204 VIEWPORT -->
@@ -66,7 +68,7 @@
         <div id="hotspots-layer"></div>
         <!-- Lớp chứa vết bẩn cần chà (sàn gạch vàng + bảng trắng) -->
         <div id="stains-layer"></div>
-        <!-- Lớp chứa đồ vật bừa bộn + côn trùng -->
+        <!-- Lớp chứa đồ vật bừa bộn + côn trùng + bé Poodle trắng -->
         <div id="items-layer"></div>
         <!-- Lớp hiệu ứng hạt / tia sáng -->
         <div id="fx-layer"></div>

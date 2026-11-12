@@ -185,6 +185,26 @@ body {
   transform: scale(0.95);
 }
 
+.pause-btn {
+  background: rgba(255, 193, 7, 0.22);
+  border-color: rgba(255, 193, 7, 0.55);
+  color: #ffe082;
+}
+
+.pause-btn:hover {
+  background: rgba(255, 193, 7, 0.35);
+}
+
+.poodle-chip {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.45);
+  color: #fff;
+}
+
+.poodle-chip b {
+  color: #80deea;
+}
+
 /* ================= TASK BAR ================= */
 #task-bar {
   display: flex;
@@ -560,6 +580,66 @@ body {
   z-index: 28;
   filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.75));
   transition: left 0.4s linear, top 0.4s linear;
+}
+
+/* ================= CHÚ CHÓ POODLE TRẮNG "BÔNG" ================= */
+.poodle {
+  position: absolute;
+  pointer-events: auto;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  z-index: 29;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: left 0.55s ease-in-out, top 0.55s ease-in-out, transform 0.2s;
+  user-select: none;
+}
+
+.poodle:hover {
+  transform: translate(-50%, -50%) scale(1.14);
+}
+
+.poodle-tag {
+  background: rgba(255, 255, 255, 0.96);
+  color: #ad1457;
+  font-size: 11px;
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1.5px solid #f48fb1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  white-space: nowrap;
+  margin-bottom: -3px;
+  pointer-events: none;
+}
+
+.poodle.hunting .poodle-tag {
+  background: #fff8e1;
+  color: #e65100;
+  border-color: #ffb300;
+}
+
+.poodle-body {
+  width: clamp(46px, 5.6vw, 64px);
+  height: clamp(42px, 5vw, 58px);
+  filter: drop-shadow(0 5px 7px rgba(0, 0, 0, 0.48));
+  animation: poodleBounce 0.6s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.poodle.flip .poodle-body {
+  animation: poodleBounceFlip 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes poodleBounce {
+  from { transform: translateY(0) scaleX(1); }
+  to { transform: translateY(-4px) scaleX(1); }
+}
+
+@keyframes poodleBounceFlip {
+  from { transform: translateY(0) scaleX(-1); }
+  to { transform: translateY(-4px) scaleX(-1); }
 }
 
 /* Hiệu ứng phát sáng khi dùng Gợi ý hoặc còn 3 món cuối */
