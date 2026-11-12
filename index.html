@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎄 Secret Santa 2026 🎄</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Hiệu ứng mờ kính (Glassmorphism) */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Nút bấm giáng sinh */
+        .btn-christmas {
+            background: linear-gradient(135deg, #c0392b, #e74c3c);
+            color: white;
+            font-weight: bold;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            box-shadow: 0 4px 15px rgba(192, 57, 43, 0.4);
+            transition: all 0.3s ease;
+        }
+        .btn-christmas:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(192, 57, 43, 0.6);
+        }
+
+        /* Hình nền Giáng sinh */
+        body {
+            background-color: #1a472a;
+            background-image: url('https://images.unsplash.com/photo-1543364195-bfe6e4932397?q=80&w=2070&auto=format&fit=crop'); /* Ảnh nền rừng thông mờ */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Lớp phủ cho ảnh nền tối lại một chút để làm nổi bật nội dung */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(26, 71, 42, 0.7); /* Màu xanh lá thông đậm */
+            z-index: -1;
+        }
+
+        /* Thẻ tab bị khóa */
+        .tab-locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+            position: relative;
+        }
+        .tab-locked::after {
+            content: "🔒";
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <div class="overlay"></div>
+
+    <div class="container mx-auto px-4 py-10 max-w-4xl">
+        
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-4 drop-shadow-lg" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+                🎅 Trạm Bưu Tá Secret Santa
+            </h1>
+            <p class="text-xl text-green-100 font-medium">Chiến dịch Mùa Đông 2026 đã chính thức khởi động!</p>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-8">
+            <button class="bg-white text-red-700 font-bold py-2 px-4 md:px-6 rounded-t-lg border-b-4 border-red-700 shadow-md">
+                Part 1: The Gathering
+            </button>
+            <button class="bg-gray-200 text-gray-500 font-semibold py-2 px-4 md:px-6 rounded-t-lg tab-locked" title="Chưa đến ngày mở khóa">
+                Part 2: The Whisper
+            </button>
+            <button class="bg-gray-200 text-gray-500 font-semibold py-2 px-4 md:px-6 rounded-t-lg tab-locked" title="Chưa đến ngày mở khóa">
+                Part 3: The Sneaky Elf
+            </button>
+            <button class="bg-gray-200 text-gray-500 font-semibold py-2 px-4 md:px-6 rounded-t-lg tab-locked" title="Chưa đến ngày mở khóa">
+                Part 4: The Reveal
+            </button>
+        </div>
+
+        <!-- Main Content Area - Part 1 -->
+        <div class="glass-panel p-6 md:p-10">
+            
+            <!-- Nội dung Part 1 -->
+            <div id="part1" class="space-y-6">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold text-red-700 mb-2">🎁 Bắt Đầu Hành Trình</h2>
+                    <div class="w-24 h-1 bg-green-600 mx-auto rounded-full mb-6"></div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <!-- Ảnh minh họa hoặc Logo sự kiện (Dùng SVG tạm) -->
+                    <div class="flex justify-center">
+                        <svg class="w-48 h-48 text-red-600 animate-pulse" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z" clip-rule="evenodd"></path><path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"></path></svg>
+                    </div>
+
+                    <!-- Luật chơi -->
+                    <div class="bg-white/60 p-6 rounded-xl border border-white">
+                        <h3 class="text-xl font-bold text-green-800 mb-3">📜 Luật Chơi Cơ Bản:</h3>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700 font-medium">
+                            <li><strong>Bước 1:</strong> Đăng ký tham gia và viết <em>Wishlist</em> (món muốn nhận) & <em>Blacklist</em> (món muốn né).</li>
+                            <li><strong>Bước 2:</strong> Hệ thống sẽ bốc thăm ngẫu nhiên & bí mật.</li>
+                            <li><strong>Bước 3:</strong> Bạn sẽ nhận được email/tin nhắn báo tên người bạn cần tặng quà (Bạn là Santa của họ).</li>
+                            <li><strong>Bước 4:</strong> Âm thầm chuẩn bị quà theo Wishlist của người đó.</li>
+                            <li><strong>Bước 5:</strong> Trao quà tại sự kiện chung.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Call to Action -->
+                <div class="text-center mt-10 p-6 bg-red-50 rounded-xl border border-red-100">
+                    <p class="text-lg font-semibold text-gray-800 mb-4">
+                        Thời hạn đăng ký sắp hết! Hãy nhanh tay điền thông tin để BTC kịp bốc thăm nhé.
+                    </p>
+                    
+                    <!-- THAY LINK FORM CỦA BẠN VÀO ĐÂY -->
+                    <a href="LINK_GOOGLE_FORM_CUA_BAN" target="_blank" class="btn-christmas inline-block text-lg">
+                        ✍️ Điền Đơn Đăng Ký Ngay
+                    </a>
+                    
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Script tạo hiệu ứng tuyết rơi siêu nhẹ -->
+    <script>
+        function createSnowflakes() {
+            const snowContainer = document.createElement('div');
+            snowContainer.style.position = 'fixed';
+            snowContainer.style.top = '0';
+            snowContainer.style.left = '0';
+            snowContainer.style.width = '100%';
+            snowContainer.style.height = '100%';
+            snowContainer.style.pointerEvents = 'none';
+            snowContainer.style.zIndex = '9999';
+            document.body.appendChild(snowContainer);
+
+            for (let i = 0; i < 30; i++) {
+                const flake = document.createElement('div');
+                flake.innerHTML = '❄';
+                flake.style.position = 'absolute';
+                flake.style.color = 'rgba(255, 255, 255, 0.6)';
+                flake.style.fontSize = Math.random() * 15 + 10 + 'px';
+                flake.style.left = Math.random() * 100 + 'vw';
+                flake.style.top = Math.random() * -100 + 'px';
+                flake.style.animation = `fall ${Math.random() * 5 + 5}s linear infinite`;
+                flake.style.animationDelay = `${Math.random() * 5}s`;
+                snowContainer.appendChild(flake);
+            }
+        }
+
+        // Thêm CSS keyframes cho tuyết rơi trực tiếp qua JS để gọn code HTML
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        createSnowflakes();
+    </script>
+</body>
+</html>
