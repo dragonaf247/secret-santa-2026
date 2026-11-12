@@ -34,13 +34,26 @@
         <p class="text-gray-400 text-sm">(Nhớ bật âm thanh bạn nhé!)</p>
     </div>
 
-    <!-- NÚT ĐIỀU KHIỂN NHẠC GÓC DƯỚI -->
-    <div class="fixed bottom-6 right-6 z-[100]">
+    <!-- NÚT ĐIỀU KHIỂN & CHỌN NHẠC GÓC DƯỚI -->
+    <div class="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-2">
+        <div id="musicOptions" class="hidden bg-gray-900/80 backdrop-blur-md border border-gray-700 rounded-lg p-2 shadow-lg mb-1 w-48">
+            <p class="text-[10px] uppercase tracking-wider text-gray-400 font-bold mb-1 px-1">Đổi bài hát:</p>
+            <select id="songSelect" onchange="changeSong(this.value)" class="w-full bg-gray-800 text-white text-xs rounded border border-gray-600 p-1.5 outline-none cursor-pointer">
+                <option value="https://raw.githubusercontent.com/dragonaf247/secret-santa-2026/main/vincemcgill-santa-claus-614837.mp3">🎅 Santa Claus (Chính)</option>
+                <option value="https://cdn.pixabay.com/audio/2022/11/17/audio_0cb34ccdd9.mp3">🎄 Jingle Bells (Lo-fi)</option>
+                <option value="https://assets.mixkit.co/music/preview/mixkit-deck-the-halls-133.mp3">🎅 Deck The Halls</option>
+                <option value="local">📁 Mở file từ máy bạn...</option>
+            </select>
+        </div>
+        
+        <input type="file" id="localAudio" accept="audio/*" class="hidden" onchange="playLocalAudio(event)">
+
         <button id="musicToggleBtn" onclick="toggleMusic()" class="bg-red-600 border-2 border-white text-white rounded-full px-4 py-2 shadow-[0_0_15px_rgba(255,0,0,0.5)] hover:bg-red-700 transition flex items-center justify-center font-bold text-sm hidden">
             🔊 Đang Phát Nhạc
         </button>
+
         <audio id="bgMusic" loop>
-            <source src="https://cdn.pixabay.com/audio/2022/11/17/audio_0cb34ccdd9.mp3" type="audio/mpeg">
+            <source src="https://raw.githubusercontent.com/dragonaf247/secret-santa-2026/main/vincemcgill-santa-claus-614837.mp3" type="audio/mpeg">
         </audio>
     </div>
 
@@ -69,7 +82,6 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-start">
-                    <!-- Luật Chơi -->
                     <div class="md:col-span-2 space-y-6">
                         <div class="flex justify-center mb-4">
                             <svg class="w-32 h-32 text-red-600 animate-pulse" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z" clip-rule="evenodd"></path><path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"></path></svg>
@@ -86,7 +98,6 @@
                         </div>
                     </div>
 
-                    <!-- Form Đăng Ký -->
                     <div class="md:col-span-3 glass-form p-6 border border-gray-100 relative">
                         <h3 class="text-xl font-bold text-gray-800 border-b pb-3 mb-4 flex items-center">
                             <span class="mr-2">✍️</span> Đơn Đăng Ký Secret Santa
@@ -105,7 +116,6 @@
                                 <input type="text" id="name" required class="form-input" placeholder="Nhập họ tên...">
                             </div>
                             
-                            <!-- Selfie + Filter & Frame Đặc Sắc -->
                             <div class="bg-gray-50 p-4 rounded-lg border border-dashed border-gray-300">
                                 <label class="block text-sm font-bold text-gray-700 mb-3">Selfie Xác Minh (Bắt buộc) 📸 <span class="text-red-500">*</span></label>
                                 <div class="flex items-center gap-4">
@@ -148,16 +158,15 @@
                             </button>
                         </form>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // --- XỬ LÝ NHẠC & MÀN HÌNH CHÀO MỪNG ---
         const bgMusic = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('musicToggleBtn');
+        const musicOptions = document.getElementById('musicOptions');
         let isPlaying = false;
 
         function startExperience() {
@@ -169,9 +178,11 @@
             bgMusic.play().then(() => {
                 isPlaying = true;
                 musicBtn.classList.remove('hidden'); 
+                musicOptions.classList.remove('hidden'); 
             }).catch(e => {
                 console.log("Trình duyệt chặn:", e);
                 musicBtn.classList.remove('hidden');
+                musicOptions.classList.remove('hidden');
                 musicBtn.innerHTML = '▶️ Bật Nhạc';
             });
         }
@@ -180,207 +191,8 @@
             if (isPlaying) {
                 bgMusic.pause();
                 musicBtn.innerHTML = '🔇 Đã Tắt Nhạc';
-                musicBtn.classList.remove('bg-red-600');
-                musicBtn.classList.add('bg-gray-600');
+                musicBtn.classList.replace('bg-red-600', 'bg-gray-600');
             } else {
                 bgMusic.play();
                 musicBtn.innerHTML = '🔊 Đang Phát Nhạc';
-                musicBtn.classList.remove('bg-gray-600');
-                musicBtn.classList.add('bg-red-600');
-            }
-            isPlaying = !isPlaying;
-        }
-
-        // --- HIỆU ỨNG TUYẾT RƠI ---
-        function createSnowflakes() {
-            const snowContainer = document.createElement('div');
-            snowContainer.style.position = 'fixed'; snowContainer.style.top = '0'; snowContainer.style.left = '0';
-            snowContainer.style.width = '100%'; snowContainer.style.height = '100%';
-            snowContainer.style.pointerEvents = 'none'; snowContainer.style.zIndex = '9999';
-            document.body.appendChild(snowContainer);
-
-            for (let i = 0; i < 30; i++) {
-                const flake = document.createElement('div');
-                flake.innerHTML = '❄';
-                flake.style.position = 'absolute'; flake.style.color = 'rgba(255, 255, 255, 0.6)';
-                flake.style.fontSize = Math.random() * 15 + 10 + 'px';
-                flake.style.left = Math.random() * 100 + 'vw'; flake.style.top = Math.random() * -100 + 'px';
-                flake.style.animation = `fall ${Math.random() * 5 + 5}s linear infinite`;
-                flake.style.animationDelay = `${Math.random() * 5}s`;
-                snowContainer.appendChild(flake);
-            }
-        }
-        const style = document.createElement('style');
-        style.innerHTML = `@keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }`;
-        document.head.appendChild(style);
-        createSnowflakes();
-
-        // --- XỬ LÝ ẢNH & VẼ KHUNG VIỀN ---
-        let originalImgObject = null; 
-        let targetWidth = 0;
-        let targetHeight = 0;
-
-        function loadOriginalImage(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                originalImgObject = new Image();
-                originalImgObject.onload = function() {
-                    const MAX_WIDTH = 400; 
-                    const MAX_HEIGHT = 400;
-                    targetWidth = originalImgObject.width;
-                    targetHeight = originalImgObject.height;
-
-                    if (targetWidth > targetHeight) {
-                        if (targetWidth > MAX_WIDTH) { targetHeight *= MAX_WIDTH / targetWidth; targetWidth = MAX_WIDTH; }
-                    } else {
-                        if (targetHeight > MAX_HEIGHT) { targetWidth *= MAX_HEIGHT / targetHeight; targetHeight = MAX_HEIGHT; }
-                    }
-                    
-                    document.getElementById('filterToolbar').classList.remove('hidden');
-                    const btns = document.querySelectorAll('.filter-btn');
-                    btns.forEach(b => b.classList.remove('active'));
-                    btns[0].classList.add('active');
-
-                    applyFilter('none');
-                };
-                originalImgObject.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // Áp dụng màu ảnh và vẽ viền
-        function applyFilter(filterType, btnElement) {
-            if (!originalImgObject) return;
-
-            if(btnElement) {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                btnElement.classList.add('active');
-            }
-
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = targetWidth;
-            canvas.height = targetHeight;
-            
-            // 1. CHỈNH MÀU ẢNH TRƯỚC KHI VẼ
-            if (filterType === 'retro') {
-                ctx.filter = 'sepia(80%) contrast(110%) brightness(90%)';
-            } else if (filterType === 'noir') {
-                ctx.filter = 'grayscale(100%) contrast(130%) brightness(85%)';
-            } else if (filterType === 'frost') {
-                ctx.filter = 'saturate(130%) hue-rotate(180deg) brightness(110%)';
-            } else if (filterType === 'noel') {
-                ctx.filter = 'saturate(130%) contrast(110%)';
-            } else {
-                ctx.filter = 'none';
-            }
-
-            // Vẽ ảnh gốc (đã được áp filter màu)
-            ctx.drawImage(originalImgObject, 0, 0, targetWidth, targetHeight);
-
-            // 2. TẮT CHỈNH MÀU ĐỂ VẼ KHUNG VIỀN MÀU CHUẨN
-            ctx.filter = 'none';
-            const frameWidth = targetWidth * 0.05; // Độ dày khung viền tỉ lệ với kích thước ảnh
-
-            if (filterType === 'retro') {
-                // Viền gỗ đôi
-                ctx.lineWidth = frameWidth;
-                ctx.strokeStyle = '#8B4513'; // Nâu viền ngoài
-                ctx.strokeRect(frameWidth/2, frameWidth/2, targetWidth - frameWidth, targetHeight - frameWidth);
-                ctx.lineWidth = 2;
-                ctx.strokeStyle = '#DAA520'; // Vàng gold viền trong
-                ctx.strokeRect(frameWidth + 5, frameWidth + 5, targetWidth - 2*frameWidth - 10, targetHeight - 2*frameWidth - 10);
-            } 
-            else if (filterType === 'noir') {
-                // Khung viền phim điện ảnh Cinematic (dải đen dày trên và dưới)
-                ctx.fillStyle = '#000000';
-                ctx.fillRect(0, 0, targetWidth, frameWidth * 2.5);
-                ctx.fillRect(0, targetHeight - frameWidth * 2.5, targetWidth, frameWidth * 2.5);
-            } 
-            else if (filterType === 'frost') {
-                // Khung viền băng tuyết nhạt
-                ctx.lineWidth = frameWidth;
-                ctx.strokeStyle = 'rgba(173, 216, 230, 0.6)'; // Màu xanh lơ nhạt
-                ctx.strokeRect(frameWidth/2, frameWidth/2, targetWidth - frameWidth, targetHeight - frameWidth);
-                
-                // Vẽ bông tuyết ở 4 góc
-                ctx.font = (targetWidth * 0.12) + "px Arial";
-                ctx.textAlign = "center"; ctx.textBaseline = "middle";
-                ctx.fillStyle = "#ffffff";
-                ctx.fillText("❄️", frameWidth*1.5, frameWidth*1.5);
-                ctx.fillText("❄️", targetWidth - frameWidth*1.5, frameWidth*1.5);
-                ctx.fillText("❄️", frameWidth*1.5, targetHeight - frameWidth*1.5);
-                ctx.fillText("❄️", targetWidth - frameWidth*1.5, targetHeight - frameWidth*1.5);
-            }
-            else if (filterType === 'noel') {
-                // Khung viền lồng Đỏ - Xanh lá
-                ctx.lineWidth = frameWidth;
-                ctx.strokeStyle = '#c0392b'; 
-                ctx.strokeRect(frameWidth/2, frameWidth/2, targetWidth - frameWidth, targetHeight - frameWidth);
-                ctx.lineWidth = frameWidth / 2;
-                ctx.strokeStyle = '#27ae60'; 
-                ctx.strokeRect(frameWidth*1.2, frameWidth*1.2, targetWidth - frameWidth*2.4, targetHeight - frameWidth*2.4);
-            }
-
-            const base64String = canvas.toDataURL('image/jpeg', 0.6);
-            document.getElementById('selfiePreview').src = base64String;
-            document.getElementById('selfiePreview').classList.remove('hidden');
-            document.getElementById('selfieBase64').value = base64String;
-        }
-
-        // --- GỬI DỮ LIỆU ---
-        function submitForm(e) {
-            e.preventDefault(); 
-            const base64Selfie = document.getElementById('selfieBase64').value;
-            if(!base64Selfie) {
-                alert('Vui lòng chụp một bức ảnh Selfie bạn nhé!');
-                return;
-            }
-
-            const btn = e.target.querySelector('button[type="submit"]');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = 'Đang gửi thư...';
-            btn.disabled = true;
-
-            const dataToSubmit = {
-                data: [{
-                        "thoigian": new Date().toLocaleString('vi-VN'), 
-                        "hoten": document.getElementById('name').value, 
-                        "phongban": base64Selfie, 
-                        "wishlist": document.getElementById('wishlist').value, 
-                        "blacklist": document.getElementById('blacklist').value
-                }]
-            };
-
-            fetch('https://sheetdb.io/api/v1/fnqbi32e6xcc0', {
-                method: 'POST',
-                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify(dataToSubmit)
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('successMessage').classList.remove('hidden');
-            })
-            .catch(error => {
-                alert('Oops! Có lỗi xảy ra, vui lòng thử lại nhé!');
-            })
-            .finally(() => {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            });
-        }
-
-        function resetWholeForm() {
-            document.getElementById('successMessage').classList.add('hidden');
-            document.getElementById('santaForm').reset();
-            document.getElementById('selfiePreview').classList.add('hidden');
-            document.getElementById('selfieBase64').value = '';
-            document.getElementById('filterToolbar').classList.add('hidden');
-            originalImgObject = null;
-        }
-    </script>
-</body>
-</html>
+                musicBtn.
